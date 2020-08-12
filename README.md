@@ -113,8 +113,6 @@ apriltag.detect(grayscaleImg, imgWidth, imgHeight)
 apriltag.set_camera_info(fx, fy, cx, cy);
 ```
 
-See the source for a javascript example [of detecting tags from the webcam](html/video_process.js).
-
 This is an example javascript code snippet that shows how to call ```detect()```, using a video frame already in an html canvas. Before this code, we also need to assign an instance of the ```Apriltag``` class (in ```html/apriltag.js```) ```apriltag``` to the ```apriltag``` variable used in the code, and, if we are getting the pose from the detector, we would also need to call ```apriltag.set_camera_info(fx, fy, cx, cy)``` to set the correct camera parameters.
 
 ```javascript
@@ -137,6 +135,9 @@ detections = await apriltag.detect(grayscalePixels, ctx.canvas.width, ctx.canvas
 
 // do something with the detections returned by detect() ...
 ```
+
+See the full example in [html](html).
+
 
 ## Detector options
 
