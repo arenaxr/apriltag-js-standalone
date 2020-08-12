@@ -8,8 +8,8 @@ This is the main WASM apriltag detector source, with additional tests and a [sta
 
 - **apriltag**: submodule of the apriltag library source repository ([https://github.com/AprilRobotics/apriltag](https://github.com/AprilRobotics/apriltag))
 - **bin**: where the resulting binaries are placed
-- **docs**: doxygen documentation of the detector C source (under [src](src)); [see the docs]((https://conix-center.github.io/apriltag-js-standalone/).
-- **html**: standalone javascript application that displays the detector output; live [here]((https://conix-center.github.io/apriltag-js-standalone/).
+- **docs**: doxygen documentation of the detector C source; [see the docs](https://conix-center.github.io/apriltag-js-standalone/docs/files.html).
+- **html**: standalone javascript application that displays the detector output; live [here](https://conix-center.github.io/apriltag-js-standalone/).
 - **log**: where valgrind logs are placed
 - **src**: the detector source
 - **test**: cmocka tests
@@ -48,7 +48,9 @@ See pre-generated tags with the right size here: https://github.com/conix-center
 
 ## Detector API
 
-The C detector documentation is automatically deployed [here](https://conix-center.github.io/apriltag-js-standalone/docs/). A usage example can be seen in [atagjs_example](src/atagjs_example.c). When running in a browser, the C code is compiled to WASM and wrapped by the javascript class [Apriltag](html/apriltag.js) using emscripten's [cwrap()](https://emscripten.org/docs/api_reference/preamble.js.html#cwrap). The detector C calls are private to the **[Apriltag](html/apriltag.js)** class, which exposes the following calls:
+The C detector documentation is automatically deployed [here](https://conix-center.github.io/apriltag-js-standalone/docs/). The detector calls are documented in [apriltag_js.c](https://conix-center.github.io/apriltag-js-standalone/docs/apriltag__js_8h.html) A usage example can be seen in [atagjs_example](src/atagjs_example.c).
+
+When running in a browser, the C code is compiled to WASM and wrapped by the javascript class [Apriltag](html/apriltag.js) using emscripten's [cwrap()](https://emscripten.org/docs/api_reference/preamble.js.html#cwrap). The detector C calls are private to the **[Apriltag](html/apriltag.js)** class, which exposes the following calls:
 
 - Apriltag() constructor. Accepts a callback that will be called when the detector code is fully loaded:
 
