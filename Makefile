@@ -71,7 +71,7 @@ help:
 	@echo "    help     - Prints a help message with target rules"
 
 # Rule for link and generate the binary file
-$(BINARY): $(APRILTAG_OBJS) $(OBJS) $(SRCDIR)/$(BINARY).o
+$(BINARY): $(APRILTAG_OBJS) $(OBJS) $(SRCDIR)/$(BINARY).o $(BINDIR)
 	$(warning in all)
 	$(CC) -o $(BINDIR)/$(BINARY) $^ $(DEBUG) $(CFLAGS) $(LIBS)
 	@echo -en "\n--\nBinary file placed at" \
@@ -84,10 +84,18 @@ $(APRILTAG)/%.o: $(APRILTAG)/%.c
 
 # Rule for object binaries compilation
 %.o: %.c
-		$(CC) -c $^ -o $@ $(DEBUG) $(CFLAGS) $(APRILTAGS) -lpthread
+	$(CC) -c $^ -o $@ $(DEBUG) $(CFLAGS) $(APRILTAGS) -lpthread
+
+// create binary files folder
+$(BINDIR):
+	mkdir $(BINDIR)
+
+// create log files folder
+$(LOGDIR):
+	mkdir $(LOGDIR)
 
 # Rule for run valgrind tool
-valgrind:
+valgrind: $(LOGDIR)
 	valgrind \
 		--track-origins=yes \
 		--leak-check=full \
