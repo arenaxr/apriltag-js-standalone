@@ -1,7 +1,7 @@
 /** @file str_json.c
  *  @brief Simple json strings creation
  *
- *  @author Nuno Pereira; CMU (this file)
+ *  Copyright (C) Wiselab CMU.
  *  @date Jul, 2020
  */
 #include <string.h>
