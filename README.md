@@ -144,7 +144,7 @@ See the full example in the [html](html) folder, live at [https://conix-center.g
 
 This is how the example application looks:
 
-![Example application detecting an Apriltag](“html/example_screenshot.png”)
+![Example application detecting an Apriltag](html/example_screenshot.png)
 
 ## Detector options
 
