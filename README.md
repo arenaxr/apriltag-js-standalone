@@ -29,7 +29,7 @@ To compile and run tests, use make:
 The Makefile has the following targets:
 
 - **all**: Builds the example binary (atagjs_example) and the WASM files (apriltag_wasm.js).
-- **atagjs_example** (default): Creates a binary (at [bin/atagjs_example](bin/atagjs_example)) of an example program that get the detrector output by giving it image files. The image files are indicated as arguments to the program (requires gcc).
+- **atagjs_example** (default): Creates a binary (at bin/atagjs_example) of an example program that get the detector output by giving it image files. The image files are indicated as arguments to the program (requires gcc).
 - **apriltag_wasm.js**: Builds the WASM detector (requires emscripten). The resulting files (**apriltag_wasm.js** and **apriltag_wasm.wasm**) are placed under the [html(html) folder so they are run with the javascript example there.
 - **tests**: Builds the cmocka test runner as executes it (requires cmocka).
 - **valgrind**: Runs the test program under valgrind for several input images in [test/tag-imgs](test/tag-imgs) (requires valgrind).

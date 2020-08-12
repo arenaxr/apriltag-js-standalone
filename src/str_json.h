@@ -1,7 +1,7 @@
 /** @file str_json.h
 *  @brief Definitions for simple json strings creation
 *
-* Copyright (C) Wiselab CMU.
+*  Copyright (C) Wiselab CMU.
 * @date July, 2020
 */
 
