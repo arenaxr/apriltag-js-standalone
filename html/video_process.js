@@ -15,7 +15,7 @@ async function init() {
 
     // set camera info; we must define these according to the device and image resolution
     // set_camera_info(double fx, double fy, double cx, double cy)
-    window.apriltag.set_camera_info(997.5703125, 997.5703125, 636.783203125, 360.4857482910); 
+    window.apriltag.set_camera_info(997.5703125, 997.5703125, 636.783203125, 360.4857482910);
 
     // start processing frames
     setTimeout(process_frame, 500);
@@ -34,11 +34,11 @@ async function process_frame() {
 
   let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
   let imageDataPixels = imageData.data;
-  let grayscaleArray = new Uint8Array(ctx.canvas.width * ctx.canvas.height);
+  let grayscalePixels = new Uint8Array(ctx.canvas.width * ctx.canvas.height); // this is the grayscale image we will pass to the detector
 
   for (var i = 0, j = 0; i < imageDataPixels.length; i += 4, j++) {
     let grayscale = Math.round((imageDataPixels[i] + imageDataPixels[i + 1] + imageDataPixels[i + 2]) / 3);
-    grayscaleArray[j] = grayscale;
+    grayscalePixels[j] = grayscale; // single grayscale value
     imageDataPixels[i] = grayscale;
     imageDataPixels[i + 1] = grayscale;
     imageDataPixels[i + 2] = grayscale;
@@ -63,8 +63,8 @@ async function process_frame() {
     ctx.stroke();
   });
 
-  // detect aprilTag
-  detections = await apriltag.detect(grayscaleArray, ctx.canvas.width, ctx.canvas.height);
+  // detect aprilTag in the grayscale image given by grayscalePixels
+  detections = await apriltag.detect(grayscalePixels, ctx.canvas.width, ctx.canvas.height);
 
   window.requestAnimationFrame(process_frame);
 }

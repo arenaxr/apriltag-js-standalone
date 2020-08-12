@@ -1,8 +1,8 @@
-# Apriltag Detector Standalone Repo
+# Apriltag WASM Detector Standalone Repo
 
 Apriltag detector using the apriltag C library at [https://github.com/AprilRobotics/apriltag](https://github.com/AprilRobotics/apriltag), and compiled to WASM using emscripten.
 
-This is the main WASM apriltag detector source, with additional tests and a standalone javascript page that displays the detector output. This allows to develop and test the detector, and then transfer the source to the main ARENA-core source.
+This is the main WASM apriltag detector source, with additional tests and a standalone javascript page that displays the detector output. This allows to develop and test the detector, and then transfer the source to the main [ARENA-core source](https://github.com/conix-center/ARENA-core/tree/master/apriltag).
 
 ## Contents
 
@@ -112,3 +112,51 @@ set_camera_info(fx, fy, cx, cy);
 ```
 
 See the source for a javascript example [of detecting tags from the webcam](html/video_process.js).
+
+This is an example javascript code snippet that shows how to call ```detect()```, using a video frame already in an html canvas. Before this code, we also need to assign an instance of the ```Apriltag``` class (in ```html/apriltag.js```) ```apriltag``` to the ```apriltag``` variable used in the code, and, if we are getting the pose from the detector, we would also need to call ```apriltag.set_camera_info(fx, fy, cx, cy)``` to set the correct camera parameters.
+
+```javascript
+// get the video frame
+let ctx = canvas.getContext("2d"); // canvas is an html canvas with the video frame
+let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+let imageDataPixels = imageData.data;
+
+// this is the grayscale image we will pass to the detector
+let grayscalePixels = new Uint8Array(ctx.canvas.width * ctx.canvas.height);
+
+// convert to grayscale
+for (var i = 0, j = 0; i < imageDataPixels.length; i += 4, j++) {
+  let grayscale = Math.round((imageDataPixels[i] + imageDataPixels[i + 1] + imageDataPixels[i + 2]) / 3);
+  grayscalePixels[j] = grayscale; // single grayscale value
+}
+
+// call detect() passing the grayscale image in grayscalePixels. NOTE: **apriltag** is a previously created instance of ```Apriltag```
+detections = await apriltag.detect(grayscalePixels, ctx.canvas.width, ctx.canvas.height); // Important: pass a width and height matching the grayscalePixels array size
+
+// do something with the detections returned by detect() ...
+```
+
+## Detector options
+
+The detector is initialized with the following options defined in ```html/apriltag.js```:
+
+```javascript
+this._opt = {
+  // Decimate input image by this factor
+  quad_decimate: 2.0,
+  // What Gaussian blur should be applied to the segmented image; standard deviation in pixels
+  quad_sigma: 0.0,
+   // Use this many CPU threads (no effect)
+  nthreads: 1,
+  // Spend more time trying to align edges of tags
+  refine_edges: 1,
+  // Maximum detections to return (0=return all)
+  max_detections: 0,
+  // Return pose (requires camera parameters)
+  return_pose: 1,
+  // Return pose solutions details
+  return_solutions: 0
+}
+```
+
+You can edit this file to change these options.

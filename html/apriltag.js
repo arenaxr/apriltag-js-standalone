@@ -27,13 +27,13 @@ class Apriltag {
           quad_decimate: 2.0,
           // What Gaussian blur should be applied to the segmented image; standard deviation in pixels
           quad_sigma: 0.0,
-           // Use this many CPU threads
+           // Use this many CPU threads (no effect)
           nthreads: 1,
           // Spend more time trying to align edges of tags
           refine_edges: 1,
           // Maximum detections to return (0=return all)
           max_detections: 0,
-          // Return pose
+          // Return pose (requires camera parameters)
           return_pose: 1,
           // Return pose solutions details
           return_solutions: 0
