@@ -17,8 +17,8 @@ async function init() {
     // set_camera_info(double fx, double fy, double cx, double cy)
     window.apriltag.set_camera_info(997.5703125, 997.5703125, 636.783203125, 360.4857482910);
 
-    // start processing frames
-    setTimeout(process_frame, 500);
+    // start processing frames in a second to allow the video to start
+    setTimeout(process_frame, 1000);
 
   }));
 }
