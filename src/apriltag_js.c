@@ -99,7 +99,6 @@ static apriltag_detection_info_t g_det_pose_info = {.cx=636.9118, .cy=360.5100, 
 static double estimate_tag_pose_with_solution(apriltag_detection_info_t *info, apriltag_pose_t *pose, char *s, int ssize);
 static double tagsize_from_id(int tagid);
 
-/** @copydoc atagjs_init */
 EMSCRIPTEN_KEEPALIVE
 int atagjs_init()
 {
@@ -125,7 +124,6 @@ int atagjs_init()
     return 0;
 }
 
-/** @copydoc atagjs_destroy */
 EMSCRIPTEN_KEEPALIVE
 int atagjs_destroy()
 {
@@ -139,7 +137,6 @@ int atagjs_destroy()
     return 0;
 }
 
-/** @copydoc atagjs_set_detector_options */
 EMSCRIPTEN_KEEPALIVE
 int atagjs_set_detector_options(float decimate, float sigma, int nthreads, int refine_edges, int max_detections, int return_pose, int return_solutions)
 {
@@ -153,7 +150,6 @@ int atagjs_set_detector_options(float decimate, float sigma, int nthreads, int r
     return 0;
 }
 
-/** @copydoc atagjs_set_pose_info */
 EMSCRIPTEN_KEEPALIVE
 int atagjs_set_pose_info(double fx, double fy, double cx, double cy)
 {
@@ -164,7 +160,6 @@ int atagjs_set_pose_info(double fx, double fy, double cx, double cy)
     return 0;
 }
 
-/** @copydoc atagjs_set_img_buffer */
 EMSCRIPTEN_KEEPALIVE
 uint8_t *atagjs_set_img_buffer(int width, int height, int stride)
 {
@@ -190,7 +185,6 @@ uint8_t *atagjs_set_img_buffer(int width, int height, int stride)
     return g_img_buf;
 }
 
-/** @copydoc atagjs_detect */
 EMSCRIPTEN_KEEPALIVE
 t_str_json *atagjs_detect()
 {
@@ -325,7 +319,7 @@ static double estimate_tag_pose_with_solution(apriltag_detection_info_t *info, a
 }
 
 /**
- * @brief Determin size of the tag from its id:
+ * @brief Determine size of the tag from its id:
  *  [0,150]=150mm;  ]150,300]=100mm; ]300,450]=50mm; ]450,587]=20mm;
  *
  * @param tagid tag id
