@@ -35,6 +35,7 @@ async function process_frame() {
     let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
   } catch (err) {
     console.log("Failed to get video frame. Video not started ?");
+    setTimeout(process_frame, 500); // try again in 0.5 s
     return;
   }
   let imageDataPixels = imageData.data;
