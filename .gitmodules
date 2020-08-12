@@ -1,0 +1,3 @@
+[submodule "apriltag"]
+	path = apriltag
+	url = git@github.com:WiseLabCMU/apriltag.git
