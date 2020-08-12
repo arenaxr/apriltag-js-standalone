@@ -53,7 +53,9 @@ The C detector html documentation is under [docs/html](docs/html). A usage examp
 - Apriltag() constructor. Accepts a callback that will be called when the detector code is fully loaded:
 
 ```javascript
-let apriltag = Apriltag(onDetectorReadyCallback);
+let apriltag = Apriltag(() => {
+  console.log("Apriltag detector ready.");
+});
 ```
 
 - The ```detect()``` call receives a grayscale image (```grayscaleImg```) with dimensions given by the arguments ```imgWidth``` and ```imgHeight``` in pixels:
