@@ -2,7 +2,7 @@
 
 Apriltag detector using the apriltag C library at [https://github.com/AprilRobotics/apriltag](https://github.com/AprilRobotics/apriltag), and compiled to WASM using emscripten.
 
-This is the main WASM apriltag detector source, with additional tests and a standalone javascript page that displays the detector output. This allows to develop and test the detector, and then transfer the source to the main [ARENA-core source](https://github.com/conix-center/ARENA-core/tree/master/apriltag).
+This is the main WASM apriltag detector source, with additional tests and a [standalone javascript application](https://conix-center.github.io/apriltag-js-standalone/) that displays the detector output. This allows to develop and test the detector, and then transfer the source to the main [ARENA-core source](https://github.com/conix-center/ARENA-core/tree/master/apriltag).
 
 ## Contents
 
@@ -48,7 +48,7 @@ See pre-generated tags with the right size here: https://github.com/conix-center
 
 ## Detector API
 
-The C detector html documentation is under [docs/html](docs/html). A usage example can be seen in [atagjs_example](src/atagjs_example.c). When running in a browser, the C code is compiled to WASM and wrapped by the javascript class ```Apriltag``` (in ```html/apriltag.js```) using emscripten's [cwrap()](https://emscripten.org/docs/api_reference/preamble.js.html#cwrap). The detector C calls are private to the ```Apriltag``` class, which exposes the folowing calls:
+The C detector documentation is automatically deployed [here](https://conix-center.github.io/apriltag-js-standalone/docs/). A usage example can be seen in [atagjs_example](src/atagjs_example.c). When running in a browser, the C code is compiled to WASM and wrapped by the javascript class ```Apriltag``` (in ```html/apriltag.js```) using emscripten's [cwrap()](https://emscripten.org/docs/api_reference/preamble.js.html#cwrap). The detector C calls are private to the ```Apriltag``` class, which exposes the folowing calls:
 
 - Apriltag() constructor. Accepts a callback that will be called when the detector code is fully loaded:
 
@@ -138,7 +138,7 @@ detections = await apriltag.detect(grayscalePixels, ctx.canvas.width, ctx.canvas
 // do something with the detections returned by detect() ...
 ```
 
-See the full example in [html](html).
+See the full example in the [html](html) folder, live at [(https://conix-center.github.io/apriltag-js-standalone/]((https://conix-center.github.io/apriltag-js-standalone/).
 
 
 ## Detector options
