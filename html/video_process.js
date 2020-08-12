@@ -29,7 +29,7 @@ async function process_frame() {
 
   let ctx = canvas.getContext("2d");
 
-
+  let imageData;
   try {
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
