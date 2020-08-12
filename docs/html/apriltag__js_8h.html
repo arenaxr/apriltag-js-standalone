@@ -143,10 +143,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Releases resources. </p>
-<dl class="section return"><dt>Returns</dt><dd>0=success</dd></dl>
-<p>Releases resources.</p>
-<dl class="section return"><dt>Returns</dt><dd>0=success</dd></dl>
-<p>Releases resources.</p>
+<dl class="section return"><dt>Returns</dt><dd>0=success </dd></dl>
 
 </div>
 </div>
@@ -169,13 +166,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>pointer to str_json structure. The data in this memory location must be consumed before the next call to detect()</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>caller is responsible for putting <em>grayscale</em> image pixels in the input buffer (g_img_buf) </dd>
 <dd>
-caller <em>should not</em> release return pointer (it's reused at every detect() call); data returned must be consumed before the next call to detect()</dd></dl>
-<p>Detect tags in image stored in the buffer (g_img_buf)</p>
-<dl class="section return"><dt>Returns</dt><dd>pointer to str_json structure. The data in this memory location must be consumed before the next call to detect()</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>caller is responsible for putting <em>grayscale</em> image pixels in the input buffer (g_img_buf) </dd>
-<dd>
-caller <em>should not</em> release return pointer (it's reused at every detect() call); data returned must be consumed before the next call to detect()</dd></dl>
-<p>Detect tags in image stored in the buffer (g_img_buf)</p>
+caller <em>should not</em> release return pointer (it's reused at every detect() call); data returned must be consumed before the next call to detect() </dd></dl>
 
 </div>
 </div>
@@ -196,11 +187,7 @@ caller <em>should not</em> release return pointer (it's reused at every detect()
 
 <p>Init the apriltag detector with given family and default options default options: quad_decimate=2.0; quad_sigma=0.0; nthreads=1; refine_edges=1; return_pose=1. </p>
 <dl class="section see"><dt>See also</dt><dd>set_detector_options for meaning of options</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>0=success; -1 on failure</dd></dl>
-<p>Init the apriltag detector with given family and default options default options: quad_decimate=2.0; quad_sigma=0.0; nthreads=1; refine_edges=1; return_pose=1.</p>
-<dl class="section see"><dt>See also</dt><dd>set_detector_options for meaning of options</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>0=success; -1 on failure</dd></dl>
-<p>Init the apriltag detector with given family and default options default options: quad_decimate=2.0; quad_sigma=0.0; nthreads=1; refine_edges=1; return_pose=1.</p>
+<dl class="section return"><dt>Returns</dt><dd>0=success; -1 on failure </dd></dl>
 
 </div>
 </div>
@@ -273,22 +260,7 @@ caller <em>should not</em> release return pointer (it's reused at every detect()
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0=success</dd></dl>
-<p>Sets the given detector options.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">decimate</td><td>Decimate input image by this factor </td></tr>
-    <tr><td class="paramname">sigma</td><td>Apply low-pass blur to input; negative sharpens </td></tr>
-    <tr><td class="paramname">nthreads</td><td>Use this many CPU threads </td></tr>
-    <tr><td class="paramname">refine_edges</td><td>Spend more time trying to align edges of tags </td></tr>
-    <tr><td class="paramname">max_detections</td><td>Maximum number of detections to return (0=no max) </td></tr>
-    <tr><td class="paramname">return_pose</td><td>Detect returns pose of detected tags (0=does not return pose; returns pose otherwise) </td></tr>
-    <tr><td class="paramname">return_solutions</td><td>Detect returns details about both solutions of the pose estimation, if available</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>0=success</dd></dl>
-<p>Sets the given detector options.</p>
+<dl class="section return"><dt>Returns</dt><dd>0=success </dd></dl>
 
 </div>
 </div>
@@ -334,19 +306,7 @@ caller <em>should not</em> release return pointer (it's reused at every detect()
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the pointer to the image buffer</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>caller of detect is responsible for putting <em>grayscale</em> image pixels in this buffer</dd></dl>
-<p>Creates/changes size of the image buffer where we receive the images to process.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">width</td><td>Width of the image </td></tr>
-    <tr><td class="paramname">height</td><td>Height of the image </td></tr>
-    <tr><td class="paramname">stride</td><td>How many pixels per row (=width typically)</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the pointer to the image buffer</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>caller of detect is responsible for putting <em>grayscale</em> image pixels in this buffer</dd></dl>
-<p>Creates/changes size of the image buffer where we receive the images to process.</p>
+<dl class="section warning"><dt>Warning</dt><dd>caller of detect is responsible for putting <em>grayscale</em> image pixels in this buffer </dd></dl>
 
 </div>
 </div>
@@ -398,19 +358,7 @@ caller <em>should not</em> release return pointer (it's reused at every detect()
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0=success</dd></dl>
-<p>Sets camera intrinsics (in pixels) for tag pose estimation.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">fx</td><td>x focal lenght in pixels </td></tr>
-    <tr><td class="paramname">fy</td><td>y focal lenght in pixels </td></tr>
-    <tr><td class="paramname">cx</td><td>x principal point in pixels </td></tr>
-    <tr><td class="paramname">cy</td><td>y principal point in pixels</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>0=success</dd></dl>
-<p>Sets camera intrinsics (in pixels) for tag pose estimation.</p>
+<dl class="section return"><dt>Returns</dt><dd>0=success </dd></dl>
 
 </div>
 </div>
