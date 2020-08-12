@@ -1,3 +1,10 @@
+/** @file apriltag_example.c
+ *  @brief Example program that get the detrector output by giving it image files
+ *
+ *  This file is based on apritag library examples. Copyright notice below.
+ *  @date June, 2020
+ */
+
 /* Copyright (C) 2013-2016, The Regents of The University of Michigan.
    All rights reserved.
 
@@ -46,15 +53,7 @@
 #include "common/pjpeg.h"
 #include "common/zarray.h"
 
-//#include "lightanchor_detector.h"
-
-#include "common/postscript_utils.h"
-
 #include "apriltag_js.h"
-
-// Invoke:
-//
-// tagtest [options] input.pnm
 
 int main(int argc, char *argv[])
 {
