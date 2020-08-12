@@ -17,9 +17,8 @@ async function init() {
     // set_camera_info(double fx, double fy, double cx, double cy)
     window.apriltag.set_camera_info(997.5703125, 997.5703125, 636.783203125, 360.4857482910);
 
-    // start processing frames in a second to allow the video to start
-    setTimeout(process_frame, 1000);
-
+    // start processing frames
+    window.requestAnimationFrame(process_frame);
   }));
 }
 
@@ -30,9 +29,14 @@ async function process_frame() {
 
   let ctx = canvas.getContext("2d");
 
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+  try {
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+  } catch (err) {
+    console.log("Failed to get video frame. Video not started ?");
+    return;
+  }
   let imageDataPixels = imageData.data;
   let grayscalePixels = new Uint8Array(ctx.canvas.width * ctx.canvas.height); // this is the grayscale image we will pass to the detector
 
