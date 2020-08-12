@@ -32,7 +32,7 @@ async function process_frame() {
   let imageData;
   try {
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+    imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
   } catch (err) {
     console.log("Failed to get video frame. Video not started ?");
     setTimeout(process_frame, 500); // try again in 0.5 s
