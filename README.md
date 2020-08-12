@@ -4,6 +4,7 @@ Apriltag detector using the apriltag C library at [https://github.com/AprilRobot
 
 This is the main WASM apriltag detector source, with additional tests and a [standalone javascript application](https://conix-center.github.io/apriltag-js-standalone/) that displays the detector output. This allows to develop and test the detector, and then transfer the source to the main [ARENA-core source](https://github.com/conix-center/ARENA-core/tree/master/apriltag).
 
+**Apriltags in the browser**
 ![Apriltag detection in the browser](html/example_screenshot.png)
 
 ## Contents
