@@ -140,8 +140,11 @@ detections = await apriltag.detect(grayscalePixels, ctx.canvas.width, ctx.canvas
 // do something with the detections returned by detect() ...
 ```
 
-See the full example in the [html](html) folder, live at [https://conix-center.github.io/apriltag-js-standalone/]((https://conix-center.github.io/apriltag-js-standalone/).
+See the full example in the [html](html) folder, live at [https://conix-center.github.io/apriltag-js-standalone/](https://conix-center.github.io/apriltag-js-standalone/).
 
+This is how the example application looks:
+
+![Example application detecting an Apriltag](“html/example_screenshot.png”)
 
 ## Detector options
 
