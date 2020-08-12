@@ -53,13 +53,13 @@ The C detector html documentation is under [docs/html](docs/html). A usage examp
 - Apriltag() constructor. Accepts a callback that will be called when the detector code is fully loaded:
 
 ```javascript
-constructor(onDetectorReadyCallback)
+let apriltag = Apriltag(onDetectorReadyCallback);
 ```
 
 - The ```detect()``` call receives a grayscale image (```grayscaleImg```) with dimensions given by the arguments ```imgWidth``` and ```imgHeight``` in pixels:
 
 ```javascript
-detect(grayscaleImg, imgWidth, imgHeight)
+apriltag.detect(grayscaleImg, imgWidth, imgHeight)
 ```
 
 > ```detect()``` will return an array of JSON objects with information about the tags detected.
@@ -108,7 +108,7 @@ detect(grayscaleImg, imgWidth, imgHeight)
   * *cx*, *cy* is the principal point offset, in pixels
 
 ```javascript
-set_camera_info(fx, fy, cx, cy);
+apriltag.set_camera_info(fx, fy, cx, cy);
 ```
 
 See the source for a javascript example [of detecting tags from the webcam](html/video_process.js).
