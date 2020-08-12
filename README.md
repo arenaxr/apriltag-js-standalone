@@ -8,8 +8,8 @@ This is the main WASM apriltag detector source, with additional tests and a [sta
 
 - **apriltag**: submodule of the apriltag library source repository ([https://github.com/AprilRobotics/apriltag](https://github.com/AprilRobotics/apriltag))
 - **bin**: where the resulting binaries are placed
-- **docs**: doxygen documentation of the detector source (under ```src```)
-- **html**: standalone javascript page that displays the detector output
+- **docs**: doxygen documentation of the detector C source (under [src](src)); [see the docs]((https://conix-center.github.io/apriltag-js-standalone/).
+- **html**: standalone javascript application that displays the detector output; live [here]((https://conix-center.github.io/apriltag-js-standalone/).
 - **log**: where valgrind logs are placed
 - **src**: the detector source
 - **test**: cmocka tests
@@ -26,10 +26,10 @@ To compile and run tests, use make:
 The Makefile has the following targets:
 
 - **all**: Builds the example binary (atagjs_example) and the WASM files (apriltag_wasm.js).
-- **atagjs_example** (default): Creates a binary (at ```bin/atagjs_example```) of an example program that get the detrector output by giving it image files. The image files are indicated as arguments to the program (requires gcc).
-- **apriltag_wasm.js**: Builds the WASM detector (requires emscripten). The resulting files (**apriltag_wasm.js** and **apriltag_wasm.wasm**) are placed under the ```html``` folder so they are run with the javascript example there.
+- **atagjs_example** (default): Creates a binary (at [bin/atagjs_example](bin/atagjs_example)) of an example program that get the detrector output by giving it image files. The image files are indicated as arguments to the program (requires gcc).
+- **apriltag_wasm.js**: Builds the WASM detector (requires emscripten). The resulting files (**apriltag_wasm.js** and **apriltag_wasm.wasm**) are placed under the [html(html) folder so they are run with the javascript example there.
 - **tests**: Builds the cmocka test runner as executes it (requires cmocka).
-- **valgrind**: Runs the test program under valgrind for several input images in test/tag-imgs (requires valgrind).
+- **valgrind**: Runs the test program under valgrind for several input images in [test/tag-imgs](test/tag-imgs) (requires valgrind).
 - **clean**: Cleans non-source files.
 - **help**: outputs description of targets.
 
@@ -48,7 +48,7 @@ See pre-generated tags with the right size here: https://github.com/conix-center
 
 ## Detector API
 
-The C detector documentation is automatically deployed [here](https://conix-center.github.io/apriltag-js-standalone/docs/). A usage example can be seen in [atagjs_example](src/atagjs_example.c). When running in a browser, the C code is compiled to WASM and wrapped by the javascript class ```Apriltag``` (in ```html/apriltag.js```) using emscripten's [cwrap()](https://emscripten.org/docs/api_reference/preamble.js.html#cwrap). The detector C calls are private to the ```Apriltag``` class, which exposes the folowing calls:
+The C detector documentation is automatically deployed [here](https://conix-center.github.io/apriltag-js-standalone/docs/). A usage example can be seen in [atagjs_example](src/atagjs_example.c). When running in a browser, the C code is compiled to WASM and wrapped by the javascript class [Apriltag](html/apriltag.js) using emscripten's [cwrap()](https://emscripten.org/docs/api_reference/preamble.js.html#cwrap). The detector C calls are private to the **[Apriltag](html/apriltag.js)** class, which exposes the following calls:
 
 - Apriltag() constructor. Accepts a callback that will be called when the detector code is fully loaded:
 
@@ -115,7 +115,7 @@ apriltag.set_camera_info(fx, fy, cx, cy);
 
 ### Javascript example
 
-This is an example javascript code snippet that shows how to call ```detect()```, using a video frame already in an html canvas. Before this code, we also need to assign an instance of the ```Apriltag``` class (in ```html/apriltag.js```) ```apriltag``` to the ```apriltag``` variable used in the code, and, if we are getting the pose from the detector, we would also need to call ```apriltag.set_camera_info(fx, fy, cx, cy)``` to set the correct camera parameters.
+This is an example javascript code snippet that shows how to call ```detect()```, using a video frame already in an html canvas. Before this code, we also need to assign an instance of the [Apriltag](html/apriltag.js) class to the ```apriltag``` variable used in the code and, if we are getting the pose from the detector, we would also need to call ```apriltag.set_camera_info(fx, fy, cx, cy)``` to set the correct camera parameters.
 
 ```javascript
 // get the video frame
@@ -138,12 +138,12 @@ detections = await apriltag.detect(grayscalePixels, ctx.canvas.width, ctx.canvas
 // do something with the detections returned by detect() ...
 ```
 
-See the full example in the [html](html) folder, live at [(https://conix-center.github.io/apriltag-js-standalone/]((https://conix-center.github.io/apriltag-js-standalone/).
+See the full example in the [html](html) folder, live at [https://conix-center.github.io/apriltag-js-standalone/]((https://conix-center.github.io/apriltag-js-standalone/).
 
 
 ## Detector options
 
-The detector is initialized with the following options defined in ```html/apriltag.js```:
+The detector is initialized with the following options defined in the [Apriltag](html/apriltag.js) constructor:
 
 ```javascript
 this._opt = {
@@ -164,4 +164,4 @@ this._opt = {
 }
 ```
 
-You can edit this file to change these options.
+You can edit the [source file](html/apriltag.js) to change these options.
