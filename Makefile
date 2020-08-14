@@ -40,7 +40,7 @@ TEST_LIBS := -l cmocka -L /usr/lib
 TEST_BINARY := $(BINARY)_test_runner
 
 # valgrind test arguments
-VALGRIND_TEST_ARGS := test/tag-imgs/* test/tag-imgs/tag36h11_all/*
+VALGRIND_TEST_ARGS := test/tag-imgs/* 
 
 # all source files except binary source
 SRCS := $(shell ls $(SRCDIR)/*.c | grep -v -e $(SRCDIR)/$(BINARY).c )
@@ -71,7 +71,7 @@ help:
 	@echo "    help     - Prints a help message with target rules"
 
 # Rule for link and generate the binary file
-$(BINARY): $(APRILTAG_OBJS) $(OBJS) $(SRCDIR)/$(BINARY).o 
+$(BINARY): $(APRILTAG_OBJS) $(OBJS) $(SRCDIR)/$(BINARY).o
 	$(warning in all)
 	$(CC) -o $(BINDIR)/$(BINARY) $^ $(DEBUG) $(CFLAGS) $(LIBS)
 	@echo -en "\n--\nBinary file placed at" \
