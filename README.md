@@ -73,7 +73,7 @@ apriltag.detect(grayscaleImg, imgWidth, imgHeight)
 >
 > Example detection:
 >
-> ```
+> ```json
 > [
 > {
 >  "id": 151,
@@ -85,15 +85,22 @@ apriltag.detect(grayscaleImg, imgWidth, imgHeight)
 >    { "x": 598, "y": 793.42}
 >  ],
 >  "center": { "x": 684.52, "y": 666.51 },
->  "pose": {
->    "R": [
->      [ 0.91576, -0.385813, 0.111941 ],
->      [ -0.335306, -0.887549, -0.315954 ],
->      [ -0.221252, -0.251803, 0.942148 ] ],
->    "t": [ 0.873393, 0.188183, 0.080928 ],
->    "e": 0.000058,
->    "s": 2
->  }
+>  "pose": {             ----------------------------|  (if returning pose)
+>    "R": [                                          |
+>      [ 0.91576, -0.385813, 0.111941 ],             |
+>      [ -0.335306, -0.887549, -0.315954 ],          |
+>      [ -0.221252, -0.251803, 0.942148 ] ],         |
+>    "t": [ 0.873393, 0.188183, 0.080928 ],          |
+>    "e": 0.000058,                                  |
+>    "asol":{            ----------------------------|----| (if returning
+>       "R":[                                        |    |  solution details)
+>          [ 0.892863, -0.092986, -0.440623 ],       |    |
+>          [ 0.077304, 0.995574, -0.053454 ],        |    |
+>          [ 0.443644, 0.013666, 0.896099 ] ],       |    |
+>       "t":[ 0.040853, -0.032423, 1.790318 ],       |    |
+>       "e":0.000078                                 |    |
+>    }                                               |    |
+>  }                     ----------------------------|----|
 > }
 > ]
 > ```
@@ -104,18 +111,32 @@ apriltag.detect(grayscaleImg, imgWidth, imgHeight)
 > * *size* is the tag size in meters (based on the tag id)
 > * *corners* are x and y corners of the tag (in fractional pixel coordinates)
 > * *center* is the center of the tag (in fractional pixel coordinates)
-> * *pose*:
+> * *pose*: is the pose estimation, only returned if ```return_pose = 1```
 >   * *R* is the rotation matrix (**column major**)
 >   * *t* is the translation
 >   * *e* is the object-space error of the pose estimation
->   * *s* is the solution returned (1=homography method; 2=potential second local minima; see: [apriltag_pose.h](https://github.com/AprilRobotics/apriltag/blob/master/apriltag_pose.h))
+>   * *asol* is the alternative solution candidate, only returned if ```return_solutions = 1``` (see: [apriltag_pose.h](https://github.com/AprilRobotics/apriltag/blob/master/apriltag_pose.h))
 
-- To compute the pose, the detector needs the camera parameters. To set them, before calling ```detect()```, use ```set_camera_info()```, where
+- To compute the pose, the detector needs the camera parameters. To set them, before calling ```detect()```, use ```set_camera_info(fx, fy, cx, cy)```, where
   * *fx*, *fy* is the focal lenght, in pixels
   * *cx*, *cy* is the principal point offset, in pixels
 
 ```javascript
 apriltag.set_camera_info(fx, fy, cx, cy);
+```
+
+- Set the detector maximum detections, if it should return pose estimates and details about alternative solutions with ```set_max_detections(maxDetections)```, ```set_return_pose(returnPose)``` and ```set_return_solutions(returnSolutions)```, where
+  * *maxDetections* is the maximum number of detections (0=return all)
+  * *returnPose* indicates if pose estimates are returned, (0=do not return; 1=return)
+  * *returnSolutions* indicates if the alternative pose estimates solution is returned, (0=do not return; 1=return)
+
+```javascript
+// return all detections
+apriltag.set_max_detections(0);
+// return pose estimate
+apriltag.set_return_pose(1);
+// return pose estimate alternative solution details
+apriltag.set_return_solutions(1);
 ```
 
 ### Javascript example
