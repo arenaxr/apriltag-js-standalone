@@ -71,7 +71,7 @@ help:
 	@echo "    help     - Prints a help message with target rules"
 
 # Rule for link and generate the binary file
-$(BINARY): $(APRILTAG_OBJS) $(OBJS) $(SRCDIR)/$(BINARY).o $(BINDIR)
+$(BINARY): $(APRILTAG_OBJS) $(OBJS) $(SRCDIR)/$(BINARY).o 
 	$(warning in all)
 	$(CC) -o $(BINDIR)/$(BINARY) $^ $(DEBUG) $(CFLAGS) $(LIBS)
 	@echo -en "\n--\nBinary file placed at" \
