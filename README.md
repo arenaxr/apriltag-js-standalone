@@ -85,22 +85,22 @@ apriltag.detect(grayscaleImg, imgWidth, imgHeight)
 >    { "x": 598, "y": 793.42}
 >  ],
 >  "center": { "x": 684.52, "y": 666.51 },
->  "pose": {             ----------------------------|  (if returning pose)
->    "R": [                                          |
->      [ 0.91576, -0.385813, 0.111941 ],             |
->      [ -0.335306, -0.887549, -0.315954 ],          |
->      [ -0.221252, -0.251803, 0.942148 ] ],         |
->    "t": [ 0.873393, 0.188183, 0.080928 ],          |
->    "e": 0.000058,                                  |
->    "asol":{            ----------------------------|----| (if returning
->       "R":[                                        |    |  solution details)
->          [ 0.892863, -0.092986, -0.440623 ],       |    |
->          [ 0.077304, 0.995574, -0.053454 ],        |    |
->          [ 0.443644, 0.013666, 0.896099 ] ],       |    |
->       "t":[ 0.040853, -0.032423, 1.790318 ],       |    |
->       "e":0.000078                                 |    |
->    }                                               |    |
->  }                     ----------------------------|----|
+>  "pose": {            
+>    "R": [                                          
+>      [ 0.91576, -0.385813, 0.111941 ],             
+>      [ -0.335306, -0.887549, -0.315954 ],          
+>      [ -0.221252, -0.251803, 0.942148 ] ],         
+>    "t": [ 0.873393, 0.188183, 0.080928 ],          
+>    "e": 0.000058,                                  
+>    "asol":{          
+>       "R":[                                        
+>          [ 0.892863, -0.092986, -0.440623 ],       
+>          [ 0.077304, 0.995574, -0.053454 ],        
+>          [ 0.443644, 0.013666, 0.896099 ] ],       
+>       "t":[ 0.040853, -0.032423, 1.790318 ],       
+>       "e":0.000078                                 
+>    }                                               
+>  }                    
 > }
 > ]
 > ```
@@ -125,7 +125,7 @@ apriltag.detect(grayscaleImg, imgWidth, imgHeight)
 apriltag.set_camera_info(fx, fy, cx, cy);
 ```
 
-- Set the detector maximum detections, if it should return pose estimates and details about alternative solutions with ```set_max_detections(maxDetections)```, ```set_return_pose(returnPose)``` and ```set_return_solutions(returnSolutions)```, where
+- Set the detector maximum number of detections, if it should return pose estimates and details about alternative solutions with ```set_max_detections(maxDetections)```, ```set_return_pose(returnPose)``` and ```set_return_solutions(returnSolutions)```, where
   * *maxDetections* is the maximum number of detections (0=return all)
   * *returnPose* indicates if pose estimates are returned, (0=do not return; 1=return)
   * *returnSolutions* indicates if the alternative pose estimates solution is returned, (0=do not return; 1=return)
