@@ -86,11 +86,11 @@ $(APRILTAG)/%.o: $(APRILTAG)/%.c
 %.o: %.c
 	$(CC) -c $^ -o $@ $(DEBUG) $(CFLAGS) $(APRILTAGS) -lpthread
 
-// create binary files folder
+# create binary files folder
 $(BINDIR):
 	mkdir $(BINDIR)
 
-// create log files folder
+# create log files folder
 $(LOGDIR):
 	mkdir $(LOGDIR)
 
