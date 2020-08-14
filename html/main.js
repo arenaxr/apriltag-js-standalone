@@ -12,12 +12,18 @@
 const video = window.video = document.getElementById('webcam_canvas');
 const canvas = window.canvas = document.getElementById('out_canvas');
 
+// set camera info
+var cameraInfoBox = document.getElementById('camera_info');
+const cameraInfoDefaults = window.cameraInfo = JSON.parse(cameraInfoBox.value);
+
 canvas.width = 480;
 canvas.height = 360;
 
+// request video according to camera parameters
 const constraints = {
   audio: false,
-  video: true
+  video: true,
+  video: { width: cameraInfo.img_size[0], height: cameraInfo.img_size[1] }
 };
 
 function handleSuccess(stream) {
@@ -30,3 +36,13 @@ function handleError(error) {
 }
 
 navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
+
+// Change listener for camera parameters
+cameraInfoBox.addEventListener('change', function() {
+  try {
+    window.cameraInfo = JSON.parse(cameraInfoBox.value);
+  } catch (err) {
+    console.log("Error parsing camera parameters!", err);
+    cameraInfoBox.value = JSON.stringify(cameraInfoDefaults, null, 2);
+  }
+});

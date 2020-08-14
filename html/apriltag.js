@@ -113,6 +113,45 @@ class Apriltag {
         this._set_pose_info(fx, fy, cx, cy);
     }
 
+    // **public** set maximum detections to return (0=return all)
+    set_max_detections(maxDetections) {
+        this._opt.max_detections = maxDetections;
+        this._set_detector_options(
+          this._opt.quad_decimate,
+          this._opt.quad_sigma,
+          this._opt.nthreads,
+          this._opt.refine_edges,
+          this._opt.max_detections,
+          this._opt.return_pose,
+          this._opt.return_solutions);
+    }
+
+    // **public** set return pose estimate (0=do not return; 1=return)
+    set_return_pose(returnPose) {
+        this._opt.return_pose = returnPose;
+        this._set_detector_options(
+          this._opt.quad_decimate,
+          this._opt.quad_sigma,
+          this._opt.nthreads,
+          this._opt.refine_edges,
+          this._opt.max_detections,
+          this._opt.return_pose,
+          this._opt.return_solutions);
+    }
+
+    // **public** set return pose estimate alternative solution details (0=do not return; 1=return)
+    set_return_solutions(returnSolutions) {
+        this._opt.return_solutions = returnSolutions;
+        this._set_detector_options(
+          this._opt.quad_decimate,
+          this._opt.quad_sigma,
+          this._opt.nthreads,
+          this._opt.refine_edges,
+          this._opt.max_detections,
+          this._opt.return_pose,
+          this._opt.return_solutions);
+    }
+
 }
 
 Comlink.expose(Apriltag);

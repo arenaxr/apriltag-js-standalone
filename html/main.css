@@ -41,7 +41,7 @@ body {
 }
 
 button {
-  background-color: #d84a38;
+  background-color: #3868d8;
   border: none;
   border-radius: 2px;
   color: white;
@@ -52,11 +52,11 @@ button {
 }
 
 button:active {
-  background-color: #cf402f;
+  background-color: #30cf70;
 }
 
 button:hover {
-  background-color: #cf402f;
+  background-color: #383dd8;
 }
 
 button[disabled] {
@@ -64,7 +64,7 @@ button[disabled] {
 }
 
 button[disabled]:hover {
-  background-color: #d84a38;
+  background-color: #9897a8;
 }
 
 canvas {
@@ -221,7 +221,8 @@ strong {
 
 textarea {
   resize: none;
-  font-family: 'Roboto', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
 }
 
 video {

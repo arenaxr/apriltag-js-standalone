@@ -19,10 +19,44 @@
     <video id="webcam_canvas" playsinline autoplay style="display:none"></video>
     <canvas id="out_canvas"></canvas>
     Put up an apriltag to see its detection.
+    <button id="req_save">Save next detection (local storage)</button>
+    <p>Camera Parameters (valid json, as given by <a href="https://www.calibdb.net/">calibdb</a>):<br/>
+     <textarea id="camera_info" rows="10" cols="100">
+       {
+            "camera_matrix": [
+                [
+                    939.3384407933022,
+                    0,
+                    640.347854307481
+                ],
+                [
+                    0,
+                    938.2560270381138,
+                    340.7192620859387
+                ],
+                [
+                    0,
+                    0,
+                    1
+                ]
+            ],
+            "img_size": [
+                1280,
+                720
+            ]
+        }
+     </textarea>
+    </p>
+
+    Saved detection:<br/>
+    <canvas id="saved_det_canvas"></canvas>
+    <textarea id="saved_det_data" rows="10" cols="100">No detection saved yet.</textarea>
 
 </div>
 
 <script src="main.js" async></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.1.0/math.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
 <script type="module" src="video_process.js" async></script>
 
 </body>
