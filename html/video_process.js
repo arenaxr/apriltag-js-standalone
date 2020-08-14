@@ -117,7 +117,6 @@ async function process_frame() {
       let savep = Base64.bytesToBase64(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data);
       var det = JSON.stringify({
         det_data: detections[0],
-        //img_data: canvas.toDataURL("image/png"),
         img_data: LZString.compressToUTF16(savep),
         img_width:  ctx.canvas.width,
         img_height: ctx.canvas.height
@@ -126,6 +125,7 @@ async function process_frame() {
       console.log("Saving detection data.");
       localStorage.setItem("detectData", det);
       buttonToggle();
+      loadImg('saved_det');
   }
 
   window.requestAnimationFrame(process_frame);
@@ -149,47 +149,6 @@ async function loadImg(targetHtmlElemId) {
      console.log(detectDataObj.det_data);
      let detDataSaved = document.getElementById(targetHtmlElemId+"_data");
      detDataSaved.value=JSON.stringify(detectDataObj, null, 2);
-
-
-     //var r = math.matrix([[0.399586, 0.297737, -0.866997],
-      //  [-0.910373, 0.017994, -0.413397],
-      //  [-0.107483, 0.954478, 0.278242]]); // apritag rotation (from detector)
-/*
-       var r = math.matrix(det.pose.R); // apritag rotation (from detector); a 3x3
-       var t = math.transpose(math.matrix(det.pose.t)); // apriltag translation (from detector); transposing into a 3x1
-       t.resize([4,1], 1); // make t a 4x1, adding a 1
-       r.resize([4,4], 0); // make r a 4x4, adding 0s
-       r.subset(math.index([0,1,2,3], 3), t); // make t the 4th column of r
-       let len = 50; // length of the axis line
-       var p = math.matrix([0, 0, -len, 1]); // end point of z axis line
-       var pcc = math.multiply(p, r); // p . r
-       var cm = math.matrix(window.cameraInfo.camera_matrix); // camera matrix a 3x3 [[fx, 0, cx],[0, fy, cy], [0, 0, 1]]
-       var tm = math.matrix([[0],[0],[0],[1]]); // 4x1
-       cm.resize([4,4], 0); // make cm a 4x4, adding 0s
-       cm.subset(math.index([0,1,2,3], 3), tm); // make tm the 4th column of cm
-       var pc = math.multiply(pcc, cm); // pcc . cm
-*/
-/*
-      var r = math.matrix(det.pose.R); // apritag rotation (from detector); a 3x3
-      var t = math.transpose(math.matrix(det.pose.t)); // apriltag translation (from detector); transposing into a 3x1
-      t.resize([4,1], 1); // make t a 4x1, adding a 1
-      r.resize([4,4], 0); // make r a 4x4, adding 0s
-      r.subset(math.index([0,1,2,3], 3), t); // make t the 4th column of r
-      console.log("r=", r.valueOf());
-      let len = 0.15; // length of the axis line in meters
-      var p = math.matrix([[0],[0],[-len],[1]]); // end point of z axis line
-      var pcc = math.multiply(r, p); // r x p
-      console.log("pcc=", pcc.valueOf());
-      var cm = math.matrix(window.cameraInfo.camera_matrix); // camera matrix a 3x3 [[fx, 0, cx],[0, fy, cy], [0, 0, 1]]
-      console.log("cm=", cm.valueOf());
-      cm.resize([3,4], 0); // make cm a 3x4, adding 0s
-      var pc = math.multiply(cm, pcc); // cm x pcc
-      console.log("pc=", pc);
-      var pcf = pc.valueOf();
-      pcf[0] = pcf[0] / pcf[2];
-      pcf[1] = pcf[1] / pcf[2];
-      console.log("pcf=", pcf);
-*/
   } else console.log("detectData not found");
 }
 
