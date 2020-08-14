@@ -260,10 +260,11 @@ static double estimate_tag_pose_with_solution(apriltag_detection_info_t *info, a
         pose->t = pose1.t;
         if (g_return_solutions) {
             if (pose2.R != NULL && pose2.t !=  NULL) {
-                snprintf(s, ssize, "\"fx\":%f, \"fy\":%f, \"cx\":%f, \"cy\":%f, \"s2\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f}", g_det_pose_info.fx, g_det_pose_info.fy, g_det_pose_info.cx, g_det_pose_info.cy,
+                snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f}",
                     matd_get(pose2.R, 0, 0), matd_get(pose2.R, 1, 0), matd_get(pose2.R, 2, 0), matd_get(pose2.R, 0, 1), matd_get(pose2.R, 1, 1), matd_get(pose2.R, 2, 1), matd_get(pose2.R, 0, 2), matd_get(pose2.R, 1, 2), matd_get(pose2.R, 2, 2), matd_get(pose2.t, 0, 0), matd_get(pose2.t, 1, 0), matd_get(pose2.t, 2, 0), err2);
-            } else snprintf(s, ssize, "\"s2\": \"undefined\"");
-        } else snprintf(s, ssize, "\"s\": \"1\""); // 1 = homography method
+            } else snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f}", // return the same solution
+                    matd_get(pose1.R, 0, 0), matd_get(pose1.R, 1, 0), matd_get(pose1.R, 2, 0), matd_get(pose1.R, 0, 1), matd_get(pose1.R, 1, 1), matd_get(pose1.R, 2, 1), matd_get(pose1.R, 0, 2), matd_get(pose1.R, 1, 2), matd_get(pose1.R, 2, 2), matd_get(pose1.t, 0, 0), matd_get(pose1.t, 1, 0), matd_get(pose1.t, 2, 0), err1);
+        } else s[0]='\0'; // return empty string
         if (pose2.R)
         {
             matd_destroy(pose2.t);
@@ -278,11 +279,9 @@ static double estimate_tag_pose_with_solution(apriltag_detection_info_t *info, a
         matd_destroy(pose1.R);
         matd_destroy(pose1.t);
         if (g_return_solutions) {
-            snprintf(s, ssize, "\"fx\":%f, \"fy\":%f, \"cx\":%f, \"cy\":%f, \"s1\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f}", g_det_pose_info.fx, g_det_pose_info.fy, g_det_pose_info.cx, g_det_pose_info.cy,
-            matd_get(pose1.R, 0, 0), matd_get(pose1.R, 1, 0), matd_get(pose1.R, 2, 0), matd_get(pose1.R, 0, 1), matd_get(pose1.R, 1, 1), matd_get(pose1.R, 2, 1), matd_get(pose1.R, 0, 2), matd_get(pose1.R, 1, 2), matd_get(pose1.R, 2, 2), matd_get(pose1.t, 0, 0), matd_get(pose1.t, 1, 0), matd_get(pose1.t, 2, 0), err1);
-        } else {
-          snprintf(s, ssize, "\"s\": \"2\""); // 2 = potential second local minima
-        }
+            snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f}",
+                 matd_get(pose1.R, 0, 0), matd_get(pose1.R, 1, 0), matd_get(pose1.R, 2, 0), matd_get(pose1.R, 0, 1), matd_get(pose1.R, 1, 1), matd_get(pose1.R, 2, 1), matd_get(pose1.R, 0, 2), matd_get(pose1.R, 1, 2), matd_get(pose1.R, 2, 2), matd_get(pose1.t, 0, 0), matd_get(pose1.t, 1, 0), matd_get(pose1.t, 2, 0), err1);
+        } else s[0]='\0'; // return empty string
         return err2;
     }
 }
