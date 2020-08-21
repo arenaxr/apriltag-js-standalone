@@ -51,7 +51,7 @@ See pre-generated tags with the right size here: https://github.com/conix-center
 
 ## Detector API
 
-The C detector documentation is automatically deployed [here](https://conix-center.github.io/apriltag-js-standalone/docs/). The detector calls are documented in [apriltag_js.c](https://conix-center.github.io/apriltag-js-standalone/docs/apriltag__js_8h.html) A usage example can be seen in [atagjs_example](src/atagjs_example.c).
+The C detector documentation is [here](https://conix-center.github.io/apriltag-js-standalone/docs/files.html). The detector calls are documented in [apriltag_js.c](https://conix-center.github.io/apriltag-js-standalone/docs/apriltag__js_8h.html). A usage example can be found at [atagjs_example](src/atagjs_example.c).
 
 When running in a browser, the C code is compiled to WASM and wrapped by the javascript class [Apriltag](html/apriltag.js) using emscripten's [cwrap()](https://emscripten.org/docs/api_reference/preamble.js.html#cwrap). The detector C calls are private to the **[Apriltag](html/apriltag.js)** class, which exposes the following calls:
 
@@ -169,10 +169,7 @@ See the full example in the [html](html) folder, live at [https://conix-center.g
 
 ## Detector Options
 
-- Set the detector maximum number of detections, if it should return pose estimates and details about alternative solutions with ```set_max_detections(maxDetections)```, ```set_return_pose(returnPose)``` and ```set_return_solutions(returnSolutions)```, where
-  * *maxDetections* is the maximum number of detections (0=return all)
-  * *returnPose* indicates if pose estimates are returned, (0=do not return; 1=return)
-  * *returnSolutions* indicates if the alternative pose estimates solution is returned, (0=do not return; 1=return)
+- Change detector with ```set_max_detections(maxDetections)```, ```set_return_pose(returnPose)``` and ```set_return_solutions(returnSolutions)```. See [Detector API](#detector-api) for details.
 
 ### Defaults
 
