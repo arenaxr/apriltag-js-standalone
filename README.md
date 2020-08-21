@@ -169,7 +169,7 @@ See the full example in the [html](html) folder, live at [https://conix-center.g
 
 ## Detector Options
 
-- Change detector with ```set_max_detections(maxDetections)```, ```set_return_pose(returnPose)``` and ```set_return_solutions(returnSolutions)```. See [Detector API](#detector-api) for details.
+- Change detector options with ```set_max_detections(maxDetections)```, ```set_return_pose(returnPose)``` and ```set_return_solutions(returnSolutions)```. See [Detector API](#detector-api) for details.
 
 ### Defaults
 
