@@ -36,7 +36,7 @@ class Apriltag {
           // Return pose (requires camera parameters)
           return_pose: 1,
           // Return pose solutions details
-          return_solutions: 0
+          return_solutions: 1
         }
 
         let _this = this;

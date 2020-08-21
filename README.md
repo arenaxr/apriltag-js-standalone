@@ -167,7 +167,14 @@ detections = await apriltag.detect(grayscalePixels, ctx.canvas.width, ctx.canvas
 See the full example in the [html](html) folder, live at [https://conix-center.github.io/apriltag-js-standalone/](https://conix-center.github.io/apriltag-js-standalone/).
 
 
-## Detector options
+## Detector Options
+
+- Set the detector maximum number of detections, if it should return pose estimates and details about alternative solutions with ```set_max_detections(maxDetections)```, ```set_return_pose(returnPose)``` and ```set_return_solutions(returnSolutions)```, where
+  * *maxDetections* is the maximum number of detections (0=return all)
+  * *returnPose* indicates if pose estimates are returned, (0=do not return; 1=return)
+  * *returnSolutions* indicates if the alternative pose estimates solution is returned, (0=do not return; 1=return)
+
+### Defaults
 
 The detector is initialized with the following options defined in the [Apriltag](html/apriltag.js) constructor:
 
@@ -186,8 +193,8 @@ this._opt = {
   // Return pose (requires camera parameters)
   return_pose: 1,
   // Return pose solutions details
-  return_solutions: 0
+  return_solutions: 1
 }
 ```
 
-You can edit the [source file](html/apriltag.js) to change these options.
+You can edit the [source file](html/apriltag.js) to change these defaults too.
