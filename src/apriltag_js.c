@@ -263,7 +263,7 @@ static double estimate_tag_pose_with_solution(apriltag_detection_info_t *info, a
                 // return other alternative solution; uniquesol indicates if there are multiple solutions
                 snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f, \"uniquesol\": true }",
                     matd_get(pose2.R, 0, 0), matd_get(pose2.R, 1, 0), matd_get(pose2.R, 2, 0), matd_get(pose2.R, 0, 1), matd_get(pose2.R, 1, 1), matd_get(pose2.R, 2, 1), matd_get(pose2.R, 0, 2), matd_get(pose2.R, 1, 2), matd_get(pose2.R, 2, 2), matd_get(pose2.t, 0, 0), matd_get(pose2.t, 1, 0), matd_get(pose2.t, 2, 0), err2);
-            } else snprintf(s, ssize, ", \"asol\": \"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f, \"uniquesol\": false }", // return the same solution
+            } else snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f, \"uniquesol\": false }", // return the same solution
                     matd_get(pose1.R, 0, 0), matd_get(pose1.R, 1, 0), matd_get(pose1.R, 2, 0), matd_get(pose1.R, 0, 1), matd_get(pose1.R, 1, 1), matd_get(pose1.R, 2, 1), matd_get(pose1.R, 0, 2), matd_get(pose1.R, 1, 2), matd_get(pose1.R, 2, 2), matd_get(pose1.t, 0, 0), matd_get(pose1.t, 1, 0), matd_get(pose1.t, 2, 0), err1);
         } else s[0]='\0'; // return empty string
         if (pose2.R)
