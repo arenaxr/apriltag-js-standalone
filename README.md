@@ -2,7 +2,7 @@
 
 Apriltag detector using the apriltag C library at [https://github.com/AprilRobotics/apriltag](https://github.com/AprilRobotics/apriltag), and compiled to WASM using emscripten.
 
-This is the main WASM apriltag detector source, with additional tests and a [standalone javascript application](https://conix-center.github.io/apriltag-js-standalone/) that displays the detector output. This allows to develop and test the detector, and then transfer the source to the main [ARENA-core source](https://github.com/conix-center/ARENA-core/tree/master/apriltag).
+This is the main WASM apriltag detector source, with additional tests and a [standalone javascript application](https://conix-center.github.io/apriltag-js-standalone/) that displays the detector output. This allows to develop and test the detector, and then transfer the source to the main [ARENA-core source](https://github.com/conix-center/ARENA-core/tree/master/src/apriltag).
 
 **Apriltags in the browser**
 ![Apriltag detection in the browser](html/example_screenshot.png)
@@ -85,22 +85,22 @@ apriltag.detect(grayscaleImg, imgWidth, imgHeight)
 >    { "x": 598, "y": 793.42}
 >  ],
 >  "center": { "x": 684.52, "y": 666.51 },
->  "pose": {            
->    "R": [                                          
->      [ 0.91576, -0.385813, 0.111941 ],             
->      [ -0.335306, -0.887549, -0.315954 ],          
->      [ -0.221252, -0.251803, 0.942148 ] ],         
->    "t": [ 0.873393, 0.188183, 0.080928 ],          
->    "e": 0.000058,                                  
->    "asol":{          
->       "R":[                                        
->          [ 0.892863, -0.092986, -0.440623 ],       
->          [ 0.077304, 0.995574, -0.053454 ],        
->          [ 0.443644, 0.013666, 0.896099 ] ],       
->       "t":[ 0.040853, -0.032423, 1.790318 ],       
->       "e":0.000078                                 
->    }                                               
->  }                    
+>  "pose": {
+>    "R": [
+>      [ 0.91576, -0.385813, 0.111941 ],
+>      [ -0.335306, -0.887549, -0.315954 ],
+>      [ -0.221252, -0.251803, 0.942148 ] ],
+>    "t": [ 0.873393, 0.188183, 0.080928 ],
+>    "e": 0.000058,
+>    "asol":{
+>       "R":[
+>          [ 0.892863, -0.092986, -0.440623 ],
+>          [ 0.077304, 0.995574, -0.053454 ],
+>          [ 0.443644, 0.013666, 0.896099 ] ],
+>       "t":[ 0.040853, -0.032423, 1.790318 ],
+>       "e":0.000078
+>    }
+>  }
 > }
 > ]
 > ```
