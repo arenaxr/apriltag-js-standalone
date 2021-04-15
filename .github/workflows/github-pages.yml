@@ -13,14 +13,14 @@ jobs:
           persist-credentials: false
 
       - name: Deploy html 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages # The branch the action should deploy to.
           folder: html # The folder the action should deploy.
 
       - name: Deploy docs 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           token: ${{ secrets.TOKEN }}
           branch: gh-pages # The branch the action should deploy to.
