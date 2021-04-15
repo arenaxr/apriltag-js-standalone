@@ -244,7 +244,7 @@ t_str_json *atagjs_detect()
  *
  * @param info detection info
  * @param pose where to return the pose estimation
- * @param s the solution selected (homography method; potential second local minima; see: apriltag_pose.h)
+ * @param s the other solution (homography method; potential second local minima; see: apriltag_pose.h)
  *
  * return the object-space error of the pose estimation
  */
@@ -260,9 +260,10 @@ static double estimate_tag_pose_with_solution(apriltag_detection_info_t *info, a
         pose->t = pose1.t;
         if (g_return_solutions) {
             if (pose2.R != NULL && pose2.t !=  NULL) {
-                snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f}",
+                // return other alternative solution; uniquesol indicates if there are multiple solutions
+                snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f, \"uniquesol\": true }",
                     matd_get(pose2.R, 0, 0), matd_get(pose2.R, 1, 0), matd_get(pose2.R, 2, 0), matd_get(pose2.R, 0, 1), matd_get(pose2.R, 1, 1), matd_get(pose2.R, 2, 1), matd_get(pose2.R, 0, 2), matd_get(pose2.R, 1, 2), matd_get(pose2.R, 2, 2), matd_get(pose2.t, 0, 0), matd_get(pose2.t, 1, 0), matd_get(pose2.t, 2, 0), err2);
-            } else snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f}", // return the same solution
+            } else snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f, \"uniquesol\": false }", // return the same solution
                     matd_get(pose1.R, 0, 0), matd_get(pose1.R, 1, 0), matd_get(pose1.R, 2, 0), matd_get(pose1.R, 0, 1), matd_get(pose1.R, 1, 1), matd_get(pose1.R, 2, 1), matd_get(pose1.R, 0, 2), matd_get(pose1.R, 1, 2), matd_get(pose1.R, 2, 2), matd_get(pose1.t, 0, 0), matd_get(pose1.t, 1, 0), matd_get(pose1.t, 2, 0), err1);
         } else s[0]='\0'; // return empty string
         if (pose2.R)
@@ -276,12 +277,13 @@ static double estimate_tag_pose_with_solution(apriltag_detection_info_t *info, a
     {
         pose->R = pose2.R;
         pose->t = pose2.t;
-        matd_destroy(pose1.R);
-        matd_destroy(pose1.t);
         if (g_return_solutions) {
-            snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f}",
+            // return other alternative solution; uniquesol indicates if there are multiple solutions
+            snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f, \"uniquesol\": true }",
                  matd_get(pose1.R, 0, 0), matd_get(pose1.R, 1, 0), matd_get(pose1.R, 2, 0), matd_get(pose1.R, 0, 1), matd_get(pose1.R, 1, 1), matd_get(pose1.R, 2, 1), matd_get(pose1.R, 0, 2), matd_get(pose1.R, 1, 2), matd_get(pose1.R, 2, 2), matd_get(pose1.t, 0, 0), matd_get(pose1.t, 1, 0), matd_get(pose1.t, 2, 0), err1);
         } else s[0]='\0'; // return empty string
+        matd_destroy(pose1.R);
+        matd_destroy(pose1.t);
         return err2;
     }
 }

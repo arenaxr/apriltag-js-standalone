@@ -107,13 +107,6 @@ async function process_frame() {
   detections = await apriltag.detect(grayscalePixels, ctx.canvas.width, ctx.canvas.height);
 
   if (imgSaveRequested && detections.length > 0) {
-      console.log("det",detections.length);
-      //saveImg(canvas);
-
-      //let enc = new TextDecoder("utf-8");
-      console.log(imageDataPixels.length);
-      //let gp = enc.decode(grayscalePixels);
-      //imageData = ;
       let savep = Base64.bytesToBase64(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data);
       var det = JSON.stringify({
         det_data: detections[0],
@@ -122,7 +115,7 @@ async function process_frame() {
         img_height: ctx.canvas.height
       });
 
-      console.log("Saving detection data.");
+      //console.log("Saving detection data.");
       localStorage.setItem("detectData", det);
       buttonToggle();
       loadImg('saved_det');
@@ -146,7 +139,7 @@ async function loadImg(targetHtmlElemId) {
      imageData.data.set(savedPixels);
      ctx.putImageData(imageData, 0, 0);
 
-     console.log(detectDataObj.det_data);
+     //console.log(detectDataObj.det_data);
      let detDataSaved = document.getElementById(targetHtmlElemId+"_data");
      detDataSaved.value=JSON.stringify(detectDataObj, null, 2);
   } else console.log("detectData not found");
@@ -155,7 +148,7 @@ async function loadImg(targetHtmlElemId) {
 var button = document.getElementById('req_save');
 button.addEventListener('click', function() {
   buttonToggle();
-  console.log("setImgSaveRequested", imgSaveRequested);
+  //console.log("setImgSaveRequested", imgSaveRequested);
 });
 
 function buttonToggle() {

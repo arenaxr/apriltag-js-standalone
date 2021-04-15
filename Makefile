@@ -40,7 +40,7 @@ TEST_LIBS := -l cmocka -L /usr/lib
 TEST_BINARY := $(BINARY)_test_runner
 
 # valgrind test arguments
-VALGRIND_TEST_ARGS := test/tag-imgs/* 
+VALGRIND_TEST_ARGS := test/tag-imgs/*
 
 # all source files except binary source
 SRCS := $(shell ls $(SRCDIR)/*.c | grep -v -e $(SRCDIR)/$(BINARY).c )
@@ -57,7 +57,7 @@ TEST_SRCS := $(shell ls $(TESTDIR)/*.c | grep -v -e $(TESTDIR)/main.c )
 # COMPILATION RULES
 #
 
-default: $(BINARY)
+default: $(BINDIR) $(BINARY)
 
 all: $(BINARY) apriltag_wasm.js
 
