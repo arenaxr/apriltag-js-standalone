@@ -1,23 +1,24 @@
 importScripts('apriltag_wasm.js');
 importScripts("https://unpkg.com/comlink/dist/umd/comlink.js");
-//importScripts("https://unpkg.com/comlink@alpha/dist/umd/comlink.js");
-/*
-This is a wrapper class that calls apriltag_wasm to load the WASM module and wraps the c implementation calls.
 
-The apriltag dectector uses the tag36h11 family.
-
-For tag pose estimation, call set_tag_size allows to indicate the size of known tags.
-If size is not defined using set_tag_size() will default to tag sizes assumed according to the tag id:
-[0,150]     -> size=150mm;
-]150,300]   -> size==100mm;
-]300,450]   -> size==50mm;
-]450,587]   -> size==20mm;
-
-*/
-
-
+/**
+ * This is a wrapper class that calls apriltag_wasm to load the WASM module and wraps the c implementation calls.
+ * The apriltag dectector uses the tag36h11 family.
+ * For tag pose estimation, call set_tag_size allows to indicate the size of known tags.
+ * If size is not defined using set_tag_size() will default to tag sizes assumed according to the tag id:
+ *
+ * [0,150]     -> size=150mm;
+ * ]150,300]   -> size==100mm;
+ * ]300,450]   -> size==50mm;
+ * ]450,587]   -> size==20mm;
+ *
+ */
 class Apriltag {
 
+  /**
+   * Contructor
+   * @param {function} onDetectorReadyCallback Callback when the detector is ready
+   */
     constructor(onDetectorReadyCallback) {
         //detectorOptions = detectorOptions || {};
 
@@ -48,6 +49,10 @@ class Apriltag {
         });
     }
 
+    /**
+     * Init warapper calls
+     * @param {*} Module WASM module instance
+     */
     onWasmInit(Module) {
         // save a reference to the module here
         this._Module = Module;
@@ -85,7 +90,13 @@ class Apriltag {
         this.onDetectorReadyCallback();
       }
 
-    // **public** detect method
+      /**
+       * **public** detect method
+       * @param {Array} grayscaleImg grayscale image buffer
+       * @param {Number} imgWidth image with
+       * @param {Number} imgHeight image height
+       * @return {detection} detection object
+       */
     detect(grayscaleImg, imgWidth, imgHeight) {
         // set_img_buffer allocates the buffer for image and returns it; just returns the previously allocated buffer if size has not changed
         let imgBuffer = this._set_img_buffer(imgWidth, imgHeight, imgWidth);
@@ -112,17 +123,30 @@ class Apriltag {
         return detections;
     }
 
-    // **public** set camera parameters
+    /**
+     * **public** set camera parameters
+     * @param {Number} fx camera focal length
+     * @param {Number} fy camera focal length
+     * @param {Number} cx camera principal point
+     * @param {Number} cy camera principal point
+     */
     set_camera_info(fx, fy, cx, cy) {
         this._set_pose_info(fx, fy, cx, cy);
     }
 
-    // **public** set size of known tag (size in meters)
+    /**
+     * **public** set size of known tag (size in meters)
+     * @param {Number} tagid the tag id
+     * @param {Number} size the size of the tag in meters
+     */
     set_tag_size(tagid, size) {
         this._atagjs_set_tag_size(tagid, size);
     }
 
-    // **public** set maximum detections to return (0=return all)
+    /**
+     * **public** set maximum detections to return (0=return all)
+     * @param {Number} maxDetections
+     */
     set_max_detections(maxDetections) {
         this._opt.max_detections = maxDetections;
         this._set_detector_options(
@@ -135,7 +159,10 @@ class Apriltag {
           this._opt.return_solutions);
     }
 
-    // **public** set return pose estimate (0=do not return; 1=return)
+    /**
+     * **public** set return pose estimate (0=do not return; 1=return)
+     * @param {Number} returnPose
+     */
     set_return_pose(returnPose) {
         this._opt.return_pose = returnPose;
         this._set_detector_options(
@@ -148,7 +175,10 @@ class Apriltag {
           this._opt.return_solutions);
     }
 
-    // **public** set return pose estimate alternative solution details (0=do not return; 1=return)
+    /**
+     * **public** set return pose estimate alternative solution details (0=do not return; 1=return)
+     * @param {Number} returnSolutions
+     */
     set_return_solutions(returnSolutions) {
         this._opt.return_solutions = returnSolutions;
         this._set_detector_options(
