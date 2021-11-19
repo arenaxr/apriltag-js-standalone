@@ -4,7 +4,6 @@ import * as Base64 from "./base64.js";
 
 var detections=[];
 var imgSaveRequested=0;
-var cameraInfo;
 
 window.onload = (event) => {
   init();
@@ -19,9 +18,10 @@ async function init() {
   // must call this to init apriltag detector; argument is a callback for when the detector is ready
   window.apriltag = await new Apriltag(Comlink.proxy(() => {
 
-    // set camera info; we must define these according to the device and image resolution
-    // set_camera_info(double fx, double fy, double cx, double cy)
-    let cameraInfo = window.cameraInfo;
+    // set camera info; we must define these according to the device and image resolution for pose computation
+    //window.apriltag.set_camera_info(double fx, double fy, double cx, double cy)
+
+    window.apriltag.set_tag_size(5, .5);
 
     // start processing frames
     window.requestAnimationFrame(process_frame);
@@ -57,35 +57,6 @@ async function process_frame() {
 
   // draw previous detection
   detections.forEach(det => {
-
-/*
-    // attempt to draw an axis line indicating the pose
-    var r = math.matrix(det.pose.R); // apritag rotation (from detector); a 3x3
-    var t = math.transpose(math.matrix(det.pose.t)); // apriltag translation (from detector); transposing into a 3x1
-    t.resize([4,1], 1); // make t a 4x1, adding a 1
-    r.resize([4,4], 0); // make r a 4x4, adding 0s
-    r.subset(math.index([0,1,2,3], 3), t); // make t the 4th column of r
-    console.log("r=", r.valueOf());
-    let len = 0.15; // length of the axis line in meters
-    var p = math.matrix([[0],[0],[-len],[1]]); // end point of z axis line
-    var pcc = math.multiply(r, p); // r x p
-    console.log("pcc=", pcc.valueOf());
-    window.cameraInfo.camera_matrix[0][0] = -window.cameraInfo.camera_matrix[0][0];
-    var cm = math.matrix(window.cameraInfo.camera_matrix); // camera matrix a 3x3 [[fx, 0, cx],[0, fy, cy], [0, 0, 1]]
-    console.log("cm=", cm.valueOf());
-    cm.resize([3,4], 0); // make cm a 3x4, adding 0s
-    var pc = math.multiply(cm, pcc); // cm x pcc
-    var pc = math.divide(pc, pc.subset(math.index(2,0))).valueOf(); // pc / pc[2]
-    console.log("pc=", pc);
-
-    // draw pose
-    ctx.beginPath();
-    ctx.lineWidth = "8";
-    ctx.strokeStyle = "red";
-    ctx.moveTo(det.center.x, det.center.y);
-    ctx.lineTo(det.center.x+pc[0], det.center.y+pc[1]);
-    ctx.stroke();
-*/
     // draw tag borders
     ctx.beginPath();
       ctx.lineWidth = "5";

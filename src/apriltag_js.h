@@ -18,6 +18,9 @@
 // maximum size of string for each detection
 #define STR_DET_LEN 1500
 
+// max id: 36h11 tag ids are up to 586
+#define MAX_TAG_ID 600
+
 /**
  * @brief Init the apriltag detector with given family and default options
  * default options: quad_decimate=2.0; quad_sigma=0.0; nthreads=1; refine_edges=1; return_pose=1
@@ -73,6 +76,17 @@ int atagjs_set_pose_info(double fx, double fy, double cx, double cy);
  * @warning caller of detect is responsible for putting *grayscale* image pixels in this buffer
  */
 uint8_t *atagjs_set_img_buffer(int width, int height, int stride);
+
+/**
+ * @brief Set the size of a known tag; This size will be used for pose computation later
+ *
+ * @param tagid the ID of the tag
+ * @param size the size of the tag in meters
+ *
+ * @return 0=success; -1 on failure
+ *
+ */
+int atagjs_set_tag_size(int tagid, double size);
 
 /**
  * @brief Detect tags in image stored in the buffer (g_img_buf)

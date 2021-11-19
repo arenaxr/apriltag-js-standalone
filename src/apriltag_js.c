@@ -60,14 +60,25 @@ static int g_return_pose = 1;
 // if we are returning details about both solutions (see estimate_tag_pose_with_solution; =0 does not output; output otherwise)
 static int g_return_solutions = 0;
 
+// store known tag sizes
+static double g_tag_size[MAX_TAG_ID] = {-1};
+
 // apriltag_detection_info
-// defaults set for 2020 ipad, with 1280x720 images
 static apriltag_detection_info_t g_det_pose_info = {.cx=636.9118, .cy=360.5100, .fx=997.2827, .fy=997.2827};
 
 // declare static calls, implemented at the end of this file
 static double estimate_tag_pose_with_solution(apriltag_detection_info_t *info, apriltag_pose_t *pose, char *s, int ssize);
 static double tagsize_from_id(int tagid);
 
+// json format string for errors
+const char fmt_error[] = "{ \"result\": \"%s\" }";
+
+// json format string for the detection corners
+const char fmt_det_point[] = "{\"id\":%d, \"corners\": [{\"x\":%.2f,\"y\":%.2f},{\"x\":%.2f,\"y\":%.2f},{\"x\":%.2f,\"y\":%.2f},{\"x\":%.2f,\"y\":%.2f}], \"center\": {\"x\":%.2f,\"y\":%.2f} }";
+// json format string for the detection with pose
+const char fmt_det_point_pose[] = "{\"id\":%d, \"corners\": [{\"x\":%.2f,\"y\":%.2f},{\"x\":%.2f,\"y\":%.2f},{\"x\":%.2f,\"y\":%.2f},{\"x\":%.2f,\"y\":%.2f}], \"center\": {\"x\":%.2f,\"y\":%.2f}, \"pose\": { \"size\":%.2f, \"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f %s } }";
+
+// see documentation in .h
 EMSCRIPTEN_KEEPALIVE
 int atagjs_init()
 {
@@ -90,9 +101,11 @@ int atagjs_init()
     g_td->debug = 0; // Enable debugging output (slow)
     g_td->refine_edges = 1;
     g_return_pose = 1;
+
     return 0;
 }
 
+// see documentation in .h
 EMSCRIPTEN_KEEPALIVE
 int atagjs_destroy()
 {
@@ -106,6 +119,7 @@ int atagjs_destroy()
     return 0;
 }
 
+// see documentation in .h
 EMSCRIPTEN_KEEPALIVE
 int atagjs_set_detector_options(float decimate, float sigma, int nthreads, int refine_edges, int max_detections, int return_pose, int return_solutions)
 {
@@ -119,6 +133,7 @@ int atagjs_set_detector_options(float decimate, float sigma, int nthreads, int r
     return 0;
 }
 
+// see documentation in .h
 EMSCRIPTEN_KEEPALIVE
 int atagjs_set_pose_info(double fx, double fy, double cx, double cy)
 {
@@ -129,6 +144,7 @@ int atagjs_set_pose_info(double fx, double fy, double cx, double cy)
     return 0;
 }
 
+// see documentation in .h
 EMSCRIPTEN_KEEPALIVE
 uint8_t *atagjs_set_img_buffer(int width, int height, int stride)
 {
@@ -154,6 +170,16 @@ uint8_t *atagjs_set_img_buffer(int width, int height, int stride)
     return g_img_buf;
 }
 
+// see documentation in .h
+EMSCRIPTEN_KEEPALIVE
+int atagjs_set_tag_size(int tagid, double size)
+{
+  if (tagid >= MAX_TAG_ID) return -1;
+  g_tag_size[tagid] = size;
+  return 0;
+}
+
+// see documentation in .h
 EMSCRIPTEN_KEEPALIVE
 t_str_json *atagjs_detect()
 {
@@ -206,24 +232,23 @@ t_str_json *atagjs_detect()
         apriltag_detection_t *det;
         zarray_get(detections, i, &det);
 
-        // size of the tag is determined from its id:
-        double tagsize = tagsize_from_id(det->id);
-
         if (g_return_pose == 0)
         {
-            snprintf(str_tmp_det, STR_DET_LEN, fmt_det_point, det->id, tagsize, det->p[0][0], det->p[0][1], det->p[1][0], det->p[1][1], det->p[2][0], det->p[2][1], det->p[3][0], det->p[3][1], det->c[0], det->c[1]);
+            snprintf(str_tmp_det, STR_DET_LEN, fmt_det_point, det->id, det->p[0][0], det->p[0][1], det->p[1][0], det->p[1][1], det->p[2][0], det->p[2][1], det->p[3][0], det->p[3][1], det->c[0], det->c[1]);
         }
         else
         {
             // return pose ..
+            double tagsize = tagsize_from_id(det->id); // size of the tag is determined from its id
             apriltag_pose_t pose;
             double pose_err;
             g_det_pose_info.det = det;
             g_det_pose_info.tagsize = tagsize;
             char *s = malloc(STR_DET_LEN);
+            s[0]='\0';
             pose_err = estimate_tag_pose_with_solution(&g_det_pose_info, &pose, s, STR_DET_LEN);
             // column major R:
-            snprintf(str_tmp_det, STR_DET_LEN, fmt_det_point_pose, det->id, tagsize, det->p[0][0], det->p[0][1], det->p[1][0], det->p[1][1], det->p[2][0], det->p[2][1], det->p[3][0], det->p[3][1], det->c[0], det->c[1], matd_get(pose.R, 0, 0), matd_get(pose.R, 1, 0), matd_get(pose.R, 2, 0), matd_get(pose.R, 0, 1), matd_get(pose.R, 1, 1), matd_get(pose.R, 2, 1), matd_get(pose.R, 0, 2), matd_get(pose.R, 1, 2), matd_get(pose.R, 2, 2), matd_get(pose.t, 0, 0), matd_get(pose.t, 1, 0), matd_get(pose.t, 2, 0), pose_err, s);
+            snprintf(str_tmp_det, STR_DET_LEN, fmt_det_point_pose, det->id, det->p[0][0], det->p[0][1], det->p[1][0], det->p[1][1], det->p[2][0], det->p[2][1], det->p[3][0], det->p[3][1], det->c[0], det->c[1], tagsize, matd_get(pose.R, 0, 0), matd_get(pose.R, 1, 0), matd_get(pose.R, 2, 0), matd_get(pose.R, 0, 1), matd_get(pose.R, 1, 1), matd_get(pose.R, 2, 1), matd_get(pose.R, 0, 2), matd_get(pose.R, 1, 2), matd_get(pose.R, 2, 2), matd_get(pose.t, 0, 0), matd_get(pose.t, 1, 0), matd_get(pose.t, 2, 0), pose_err, s);
             matd_destroy(pose.R);
             matd_destroy(pose.t);
             free(s);
@@ -240,11 +265,13 @@ t_str_json *atagjs_detect()
 }
 
 /**
- * Our implementation of estimate tag pose to return the solution selected (1=homography method; 2=potential second local minima; see: apriltag_pose.h)
+ * Our implementation of estimate tag pose to return the solution selected (1=homography method; 2=potential second local minima; see: apriltag/apriltag_pose.h)
+ * Writes JSON-formatted pose solution(s) into a user supplied string
  *
  * @param info detection info
  * @param pose where to return the pose estimation
- * @param s the other solution (homography method; potential second local minima; see: apriltag_pose.h)
+ * @param s user allocated string where to write the output json
+ * @param ssize size of the given user allocated string s
  *
  * return the object-space error of the pose estimation
  */
@@ -258,14 +285,14 @@ static double estimate_tag_pose_with_solution(apriltag_detection_info_t *info, a
     {
         pose->R = pose1.R;
         pose->t = pose1.t;
-        if (g_return_solutions) {
+        if (s != NULL && ssize > 100) { // string must be at least 100 characters
             if (pose2.R != NULL && pose2.t !=  NULL) {
                 // return other alternative solution; uniquesol indicates if there are multiple solutions
                 snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f, \"uniquesol\": true }",
                     matd_get(pose2.R, 0, 0), matd_get(pose2.R, 1, 0), matd_get(pose2.R, 2, 0), matd_get(pose2.R, 0, 1), matd_get(pose2.R, 1, 1), matd_get(pose2.R, 2, 1), matd_get(pose2.R, 0, 2), matd_get(pose2.R, 1, 2), matd_get(pose2.R, 2, 2), matd_get(pose2.t, 0, 0), matd_get(pose2.t, 1, 0), matd_get(pose2.t, 2, 0), err2);
             } else snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f, \"uniquesol\": false }", // return the same solution
                     matd_get(pose1.R, 0, 0), matd_get(pose1.R, 1, 0), matd_get(pose1.R, 2, 0), matd_get(pose1.R, 0, 1), matd_get(pose1.R, 1, 1), matd_get(pose1.R, 2, 1), matd_get(pose1.R, 0, 2), matd_get(pose1.R, 1, 2), matd_get(pose1.R, 2, 2), matd_get(pose1.t, 0, 0), matd_get(pose1.t, 1, 0), matd_get(pose1.t, 2, 0), err1);
-        } else s[0]='\0'; // return empty string
+        }
         if (pose2.R)
         {
             matd_destroy(pose2.t);
@@ -277,11 +304,11 @@ static double estimate_tag_pose_with_solution(apriltag_detection_info_t *info, a
     {
         pose->R = pose2.R;
         pose->t = pose2.t;
-        if (g_return_solutions) {
+        if (s != NULL && ssize > 100) {
             // return other alternative solution; uniquesol indicates if there are multiple solutions
             snprintf(s, ssize, ", \"asol\": {\"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f, \"uniquesol\": true }",
                  matd_get(pose1.R, 0, 0), matd_get(pose1.R, 1, 0), matd_get(pose1.R, 2, 0), matd_get(pose1.R, 0, 1), matd_get(pose1.R, 1, 1), matd_get(pose1.R, 2, 1), matd_get(pose1.R, 0, 2), matd_get(pose1.R, 1, 2), matd_get(pose1.R, 2, 2), matd_get(pose1.t, 0, 0), matd_get(pose1.t, 1, 0), matd_get(pose1.t, 2, 0), err1);
-        } else s[0]='\0'; // return empty string
+        }
         matd_destroy(pose1.R);
         matd_destroy(pose1.t);
         return err2;
@@ -289,16 +316,26 @@ static double estimate_tag_pose_with_solution(apriltag_detection_info_t *info, a
 }
 
 /**
- * @brief Determine size of the tag from its id:
- *  [0,150]=150mm;  ]150,300]=100mm; ]300,450]=50mm; ]450,587]=20mm;
+ * @brief Determine size of the tag from its id
+ *        if tag is known return that size, otherwise return size as follows:
+ *         id in [0,150]=150mm;
+ *         id in ]150,300]=100mm;
+ *         id in ]300,450]=50mm;
+ *         id in ]450,587]=20mm;
  *
  * @param tagid tag id
  *
  * return the tag size, in meters
  */
 static double tagsize_from_id(int tagid) {
-  if (tagid <= 150) return 0.150;
-  if (tagid <= 300) return 0.100;
-  if (tagid <= 450) return 0.050;
-  return 0.020;
+  double size=-1;
+  if (tagid < MAX_TAG_ID) size = g_tag_size[tagid];
+  if (size < 0) {
+    // default to id-based size
+    if (tagid <= 150) return 0.150;
+    if (tagid <= 300) return 0.100;
+    if (tagid <= 450) return 0.050;
+    return 0.020;
+  }
+  return size;
 }

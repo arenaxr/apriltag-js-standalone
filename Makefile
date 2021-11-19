@@ -57,7 +57,7 @@ TEST_SRCS := $(shell ls $(TESTDIR)/*.c | grep -v -e $(TESTDIR)/main.c )
 # COMPILATION RULES
 #
 
-default: $(BINDIR) $(BINARY)
+default: $(BINARY)
 
 all: $(BINARY) apriltag_wasm.js
 
@@ -72,30 +72,24 @@ help:
 
 # Rule for link and generate the binary file
 $(BINARY): $(APRILTAG_OBJS) $(OBJS) $(SRCDIR)/$(BINARY).o
-	$(warning in all)
+	$(warning building binary...)
+	@mkdir -p $(BINDIR)
 	$(CC) -o $(BINDIR)/$(BINARY) $^ $(DEBUG) $(CFLAGS) $(LIBS)
 	@echo -en "\n--\nBinary file placed at" \
 			  "$(BINDIR)/$(BINARY)\n";
 
 # Rule for object binaries compilation
 $(APRILTAG)/%.o: $(APRILTAG)/%.c
-	$(warning in apriltag)
+	$(warning building apriltag...)
 	$(CC) -c $^ -o $@ $(DEBUG) $(CFLAGS) $(APRILTAGS) -lpthread
 
 # Rule for object binaries compilation
 %.o: %.c
 	$(CC) -c $^ -o $@ $(DEBUG) $(CFLAGS) $(APRILTAGS) -lpthread
 
-# create binary files folder
-$(BINDIR):
-	mkdir $(BINDIR)
-
-# create log files folder
-$(LOGDIR):
-	mkdir $(LOGDIR)
-
 # Rule for run valgrind tool
-valgrind: $(LOGDIR)
+valgrind:
+	@mkdir -p $(LOGDIR)
 	valgrind \
 		--track-origins=yes \
 		--leak-check=full \
@@ -106,6 +100,7 @@ valgrind: $(LOGDIR)
 
 # Compile tests and run the test binary
 tests: $(APRILTAG_OBJS) $(OBJS) $(TEST_SRCS)
+	@mkdir -p $(BINDIR)
 	@echo -en "CC ";
 	$(CC) $(TESTDIR)/main.c -o $(BINDIR)/$(TEST_BINARY) $^ $(DEBUG) $(CFLAGS) $(LIBS) $(TEST_LIBS) -I$(SRCDIR)
 	@which ldconfig && ldconfig -C /tmp/ld.so.cache || true # caching the library linking
@@ -113,6 +108,7 @@ tests: $(APRILTAG_OBJS) $(OBJS) $(TEST_SRCS)
 	./$(BINDIR)/$(TEST_BINARY)
 
 apriltag_wasm.js: $(APRILTAG_SRCS) $(SRCS)
+	@mkdir -p $(WASMDIR)
 	emcc -Os -s MODULARIZE=1 -s 'EXPORT_NAME="AprilTagWasm"' -s WASM=1 -Iapriltag -s ALLOW_MEMORY_GROWTH=1 -s EXPORTED_FUNCTIONS="['_free']" -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "getValue", "setValue"]' -o $(WASMDIR)/$@ $^
 
 docs:

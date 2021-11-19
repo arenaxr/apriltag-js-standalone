@@ -4,8 +4,10 @@ importScripts("https://unpkg.com/comlink/dist/umd/comlink.js");
 /*
 This is a wrapper class that calls apriltag_wasm to load the WASM module and wraps the c implementation calls.
 
-The apriltag dectector uses the tag36h11 family. For tag pose estimation, tag sizes are assumed according to the tag id:
+The apriltag dectector uses the tag36h11 family.
 
+For tag pose estimation, call set_tag_size allows to indicate the size of known tags.
+If size is not defined using set_tag_size() will default to tag sizes assumed according to the tag id:
 [0,150]     -> size=150mm;
 ]150,300]   -> size==100mm;
 ]300,450]   -> size==50mm;
@@ -59,6 +61,8 @@ class Apriltag {
         this._set_pose_info = Module.cwrap('atagjs_set_pose_info', 'number', ['number', 'number', 'number', 'number']);
         //uint8_t* atagjs_set_img_buffer(int width, int height, int stride); Creates/changes size of the image buffer where we receive the images to process
         this._set_img_buffer = Module.cwrap('atagjs_set_img_buffer', 'number', ['number', 'number', 'number']);
+        //void *atagjs_set_tag_size(int tagid, double size)
+        this._atagjs_set_tag_size = Module.cwrap('atagjs_set_tag_size', null, ['number', 'number']);
         //t_str_json* atagjs_detect(); Detect tags in image previously stored in the buffer.
         //returns pointer to buffer starting with an int32 indicating the size of the remaining buffer (a string of chars with the json describing the detections)
         this._detect = Module.cwrap('atagjs_detect', 'number', []);
@@ -111,6 +115,11 @@ class Apriltag {
     // **public** set camera parameters
     set_camera_info(fx, fy, cx, cy) {
         this._set_pose_info(fx, fy, cx, cy);
+    }
+
+    // **public** set size of known tag (size in meters)
+    set_tag_size(tagid, size) {
+        this._atagjs_set_tag_size(tagid, size);
     }
 
     // **public** set maximum detections to return (0=return all)
