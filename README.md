@@ -38,7 +38,7 @@ The Makefile has the following targets:
 
 # Detector Details
 
-The apriltag detector uses the [tag36h11](http://ptolemy.berkeley.edu/ptolemyII/ptII11.0/ptII/doc/codeDoc/edu/umich/eecs/april/tag/Tag36h11.html) family ([pre-generated tags](https://github.com/conix-center/apriltag-gen)). For tag pose estimation, tag sizes are assumed to be fixed, according to the tag id, as shown in the table.
+The apriltag detector uses the [tag36h11](http://ptolemy.berkeley.edu/ptolemyII/ptII11.0/ptII/doc/codeDoc/edu/umich/eecs/april/tag/Tag36h11.html) family ([pre-generated tags](https://github.com/conix-center/apriltag-gen)). For tag pose estimation, tag sizes must be known. Use ```set_tag_size(tagid, size)``` to tell the detector about the size of a known tag. If the size of a tag is not provided (by calling ```set_tag_size(tagid, size)```) tag sizes are assumed to be fixed, according to the tag id, as shown in the table.
 
 | Tag ID Range | Tag Size (mm) |
 | ------------ | ------------- |
@@ -47,7 +47,7 @@ The apriltag detector uses the [tag36h11](http://ptolemy.berkeley.edu/ptolemyII/
 | [301,450]    | 50            |
 | [451,586]    | 20            |
 
-See pre-generated tags with the right size here: https://github.com/conix-center/apriltag-gen
+See pre-generated tags with the above sizes here: https://github.com/conix-center/apriltag-gen
 
 ## Detector API
 
@@ -117,12 +117,20 @@ apriltag.detect(grayscaleImg, imgWidth, imgHeight)
 >   * *e* is the object-space error of the pose estimation
 >   * *asol* is the alternative solution candidate, only returned if ```return_solutions = 1``` (see: [apriltag_pose.h](https://github.com/AprilRobotics/apriltag/blob/master/apriltag_pose.h))
 
-- To compute the pose, the detector needs the camera parameters. To set them, before calling ```detect()```, use ```set_camera_info(fx, fy, cx, cy)```, where
-  * *fx*, *fy* is the focal lenght, in pixels
+- Use ```set_tag_size(tagid, size)``` to tell the detector about the size of a known tag. This size is used when computing the tag's pose and should be set before calling ```detect()```,  where
+  * *tagid* is the id of the apriltag
+  * *size* is the size of the tag in meters
+
+```javascript
+apriltag.set_tag_size(5, 0.1); // set the size of tag with id 5 to 0.1 meters
+```
+
+- Use ```set_camera_info(fx, fy, cx, cy)``` to tell the detector the camera parameters used when computing the tag's pose. The camera parameters should be set before calling ```detect()```,  where
+  * *fx*, *fy* is the focal length, in pixels
   * *cx*, *cy* is the principal point offset, in pixels
 
 ```javascript
-apriltag.set_camera_info(fx, fy, cx, cy);
+apriltag.set_camera_info(997.28, 997.28, 636.91, 360.51);
 ```
 
 - Set the detector maximum number of detections, if it should return pose estimates and details about alternative solutions with ```set_max_detections(maxDetections)```, ```set_return_pose(returnPose)``` and ```set_return_solutions(returnSolutions)```, where
