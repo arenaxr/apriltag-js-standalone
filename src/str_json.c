@@ -5,20 +5,11 @@
  *  @date Jul, 2020
  */
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include "str_json.h"
-
-// json format string for errors
-const char fmt_error[] = "{ \"result\": \"%s\" }";
-
-// json format string for the detection corners
-const char fmt_det_point[] = "{\"id\":%d, \"size\":%.2f, \"corners\": [{\"x\":%.2f,\"y\":%.2f},{\"x\":%.2f,\"y\":%.2f},{\"x\":%.2f,\"y\":%.2f},{\"x\":%.2f,\"y\":%.2f}], \"center\": {\"x\":%.2f,\"y\":%.2f} }";
-
-// json format string for the detection with pose
-const char fmt_det_point_pose[] = "{\"id\":%d, \"size\":%.2f, \"corners\": [{\"x\":%.2f,\"y\":%.2f},{\"x\":%.2f,\"y\":%.2f},{\"x\":%.2f,\"y\":%.2f},{\"x\":%.2f,\"y\":%.2f}], \"center\": {\"x\":%.2f,\"y\":%.2f}, \"pose\": { \"R\": [[%f,%f,%f],[%f,%f,%f],[%f,%f,%f]], \"t\": [%f,%f,%f], \"e\": %f %s } }";
 
 /** @copydoc str_json_create */
 int str_json_create ( t_str_json *str_json, size_t size_bytes ) {
