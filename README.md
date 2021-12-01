@@ -38,16 +38,9 @@ The Makefile has the following targets:
 
 # Detector Details
 
-The apriltag detector uses the [tag36h11](http://ptolemy.berkeley.edu/ptolemyII/ptII11.0/ptII/doc/codeDoc/edu/umich/eecs/april/tag/Tag36h11.html) family ([pre-generated tags](https://github.com/conix-center/apriltag-gen)). For tag pose estimation, tag sizes must be known. Use ```set_tag_size(tagid, size)``` to tell the detector about the size of a known tag. If the size of a tag is not provided (by calling ```set_tag_size(tagid, size)```) tag sizes are assumed to be fixed, according to the tag id, as shown in the table.
+The apriltag detector uses the [tag36h11](http://ptolemy.berkeley.edu/ptolemyII/ptII11.0/ptII/doc/codeDoc/edu/umich/eecs/april/tag/Tag36h11.html) family ([pre-generated tags](https://github.com/conix-center/apriltag-gen)). For tag pose estimation, tag sizes must be known. Use ```set_tag_size(tagid, size)``` to tell the detector about the size of a known tag. If the size of a tag is not provided (by calling ```set_tag_size(tagid, size)```), tags are assumed to be of 150 mm.
 
-| Tag ID Range | Tag Size (mm) |
-| ------------ | ------------- |
-| [0,150]      | 150           |
-| [151,300]    | 100           |
-| [301,450]    | 50            |
-| [451,586]    | 20            |
-
-See pre-generated tags with the above sizes here: https://github.com/conix-center/apriltag-gen
+See pre-generated tags here: https://github.com/conix-center/apriltag-gen
 
 ## Detector API
 

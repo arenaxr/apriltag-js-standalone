@@ -5,12 +5,7 @@ importScripts("https://unpkg.com/comlink/dist/umd/comlink.js");
  * This is a wrapper class that calls apriltag_wasm to load the WASM module and wraps the c implementation calls.
  * The apriltag dectector uses the tag36h11 family.
  * For tag pose estimation, call set_tag_size allows to indicate the size of known tags.
- * If size is not defined using set_tag_size() will default to tag sizes assumed according to the tag id:
- *
- * [0,150]     -> size=150mm;
- * ]150,300]   -> size==100mm;
- * ]300,450]   -> size==50mm;
- * ]450,587]   -> size==20mm;
+ * If size is not defined using set_tag_size() will default to the defaukt tag size of 0.15 meters
  *
  */
 class Apriltag {
