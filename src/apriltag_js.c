@@ -61,7 +61,7 @@ static int g_return_pose = 1;
 static int g_return_solutions = 0;
 
 // store known tag sizes
-static double g_tag_size[MAX_TAG_ID] = {0.15}; // init all elements to default tag size of 0.15 m
+static double g_tag_size[MAX_TAG_ID] = {0}; // init all elements to 0
 
 // apriltag_detection_info
 static apriltag_detection_info_t g_det_pose_info = {.cx=636.9118, .cy=360.5100, .fx=997.2827, .fy=997.2827};
@@ -321,10 +321,11 @@ static double estimate_tag_pose_with_solution(apriltag_detection_info_t *info, a
  *
  * @param tagid tag id
  *
- * return the tag size, in meters; -1 if invalid id
+ * return the tag size, in meters
  */
 static double tagsize_from_id(int tagid) {
-  double size=-1;
+  double size=0;
   if (tagid < MAX_TAG_ID) size = g_tag_size[tagid];
+  if (size == 0) return 0.15; // default to 0.15 meters
   return size;
 }
