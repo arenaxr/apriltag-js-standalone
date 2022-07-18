@@ -2,7 +2,7 @@
 
 Apriltag detector using the apriltag C library at [https://github.com/AprilRobotics/apriltag](https://github.com/AprilRobotics/apriltag), and compiled to WASM using emscripten.
 
-This is the main WASM apriltag detector source, with additional tests and a [standalone javascript application](https://conix-center.github.io/apriltag-js-standalone/) that displays the detector output. This allows to develop and test the detector, and then transfer the source to the main [ARENA-core source](https://github.com/conix-center/ARENA-core/).
+This is the main WASM apriltag detector source, with additional tests and a [standalone javascript application](https://arenaxr.github.io/apriltag-js-standalone/) that displays the detector output. This allows to develop and test the detector, and then transfer the source to the main [ARENA-core source](https://github.com/arenaxr/arena-web-core).
 
 **Apriltags in the browser**
 ![Apriltag detection in the browser](html/example_screenshot.png)
@@ -11,8 +11,8 @@ This is the main WASM apriltag detector source, with additional tests and a [sta
 
 - **apriltag**: submodule of the apriltag library source repository ([https://github.com/AprilRobotics/apriltag](https://github.com/AprilRobotics/apriltag))
 - **bin**: where the resulting binaries are placed
-- **docs**: doxygen documentation of the detector C source; [see the docs](https://conix-center.github.io/apriltag-js-standalone/docs/files.html).
-- **html**: standalone javascript application that displays the detector output; live [here](https://conix-center.github.io/apriltag-js-standalone/).
+- **docs**: doxygen documentation of the detector C source; [see the docs](https://arenaxr.github.io/apriltag-js-standalone/docs/files.html).
+- **html**: standalone javascript application that displays the detector output; live [here](https://arenaxr.github.io/apriltag-js-standalone/).
 - **log**: where valgrind logs are placed
 - **src**: the detector source
 - **test**: cmocka tests
@@ -38,13 +38,13 @@ The Makefile has the following targets:
 
 # Detector Details
 
-The apriltag detector uses the [tag36h11](http://ptolemy.berkeley.edu/ptolemyII/ptII11.0/ptII/doc/codeDoc/edu/umich/eecs/april/tag/Tag36h11.html) family ([pre-generated tags](https://github.com/conix-center/apriltag-gen)). For tag pose estimation, tag sizes must be known. Use ```set_tag_size(tagid, size)``` to tell the detector about the size of a known tag. If the size of a tag is not provided (by calling ```set_tag_size(tagid, size)```), tags are assumed to be of 150 mm.
+The apriltag detector uses the [tag36h11](http://ptolemy.berkeley.edu/ptolemyII/ptII11.0/ptII/doc/codeDoc/edu/umich/eecs/april/tag/Tag36h11.html) family ([pre-generated tags](https://github.com/arenaxr/apriltag-gen)). For tag pose estimation, tag sizes must be known. Use ```set_tag_size(tagid, size)``` to tell the detector about the size of a known tag. If the size of a tag is not provided (by calling ```set_tag_size(tagid, size)```), tags are assumed to be of 150 mm.
 
-See pre-generated tags here: https://github.com/conix-center/apriltag-gen
+See pre-generated tags here: https://github.com/arenaxr/apriltag-gen
 
 ## Detector API
 
-The C detector documentation is [here](https://conix-center.github.io/apriltag-js-standalone/docs/files.html). The detector calls are documented in [apriltag_js.c](https://conix-center.github.io/apriltag-js-standalone/docs/apriltag__js_8h.html). A usage example can be found at [atagjs_example](src/atagjs_example.c).
+The C detector documentation is [here](https://arenaxr.github.io/apriltag-js-standalone/docs/files.html). The detector calls are documented in [apriltag_js.c](https://arenaxr.github.io/apriltag-js-standalone/docs/apriltag__js_8h.html). A usage example can be found at [atagjs_example](src/atagjs_example.c).
 
 When running in a browser, the C code is compiled to WASM and wrapped by the javascript class [Apriltag](html/apriltag.js) using emscripten's [cwrap()](https://emscripten.org/docs/api_reference/preamble.js.html#cwrap). The detector C calls are private to the **[Apriltag](html/apriltag.js)** class, which exposes the following calls:
 
@@ -165,7 +165,7 @@ detections = await apriltag.detect(grayscalePixels, ctx.canvas.width, ctx.canvas
 // do something with the detections returned by detect() ...
 ```
 
-See the full example in the [html](html) folder, live at [https://conix-center.github.io/apriltag-js-standalone/](https://conix-center.github.io/apriltag-js-standalone/).
+See the full example in the [html](html) folder, live at [https://arenaxr.github.io/apriltag-js-standalone/](https://arenaxr.github.io/apriltag-js-standalone/).
 
 
 ## Detector Options
