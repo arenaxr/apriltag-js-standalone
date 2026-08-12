@@ -8,19 +8,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+        uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
         with:
           persist-credentials: false
 
       - name: Deploy html 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.1
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages # The branch the action should deploy to.
           folder: html # The folder the action should deploy.
 
       - name: Deploy docs 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.1
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
         with:
           token: ${{ secrets.TOKEN }}
           branch: gh-pages # The branch the action should deploy to.
